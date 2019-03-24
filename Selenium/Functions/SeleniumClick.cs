@@ -1,4 +1,7 @@
-﻿using Selenium.PageObject;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using Selenium.Constants;
+using System;
 
 namespace Selenium.Functions
 {
@@ -6,7 +9,18 @@ namespace Selenium.Functions
     {
         public SeleniumClick()
         {
-            new PageElement().Key = "";
         }
+
+        public void Click(By ElementLocation, int WaitTime)
+        {
+            WebDriverWait Wait = new WebDriverWait(SeleniumDriver.GetDriver(), TimeSpan.FromSeconds(WaitTime));
+            Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(ElementLocation)).Click();
+        }
+
+        public void Click(By ElementLocation)
+        {
+            Click(ElementLocation, TimeConstants.DEFAULT_2_SECONDS);
+        }
+
     }
 }

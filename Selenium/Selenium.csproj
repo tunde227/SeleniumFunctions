@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props')" />
   <Import Project="..\packages\NUnit.3.11.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.11.0\build\NUnit.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -32,10 +33,15 @@
     <Compile Include="Functions\SeleniumVisibility.cs" />
     <Compile Include="Page Object\PageElement.cs" />
     <Compile Include="Page Object\ElementType.cs" />
+    <Compile Include="Functions\SeleniumDriver.cs" />
+    <Compile Include="NUnitTest.cs" />
+    <Compile Include="Functions\SeleniumBrowser.cs" />
+    <Compile Include="Constants\TimeConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Functions\" />
     <Folder Include="Page Object\" />
+    <Folder Include="Constants\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -51,6 +57,9 @@
       <HintPath>..\packages\Selenium.WebDriver.3.141.0\lib\net45\WebDriver.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="SeleniumExtras.WaitHelpers">
+      <HintPath>..\packages\DotNetSeleniumExtras.WaitHelpers.3.11.0\lib\net45\SeleniumExtras.WaitHelpers.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
