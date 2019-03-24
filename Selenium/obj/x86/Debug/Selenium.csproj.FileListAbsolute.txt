@@ -17,3 +17,16 @@
 /Users/brian/Projects/Selenium/Selenium/obj/x86/Debug/Selenium.csproj.CopyComplete
 /Users/brian/Projects/Selenium/Selenium/obj/x86/Debug/Selenium.exe
 /Users/brian/Projects/Selenium/Selenium/obj/x86/Debug/Selenium.pdb
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/bin/Debug/Selenium.exe
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/bin/Debug/Selenium.pdb
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/bin/Debug/nunit.framework.dll
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/bin/Debug/SeleniumExtras.WaitHelpers.dll
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/bin/Debug/WebDriver.dll
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/bin/Debug/WebDriver.xml
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/bin/Debug/nunit.framework.pdb
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/bin/Debug/nunit.framework.xml
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/obj/x86/Debug/Selenium.csprojAssemblyReference.cache
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/obj/x86/Debug/Selenium.csproj.CoreCompileInputs.cache
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/obj/x86/Debug/Selenium.csproj.CopyComplete
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/obj/x86/Debug/Selenium.exe
+/Users/brian/Documents/Coding Projects/C Sharp Projects/SeleniumFunctions/Selenium/obj/x86/Debug/Selenium.pdb
