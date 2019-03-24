@@ -5,8 +5,8 @@
         <State name="__root__">
           <Node name="Selenium" expanded="True">
             <Node name="Selenium" expanded="True">
-              <Node name="Page Object" expanded="True">
-                <Node name="ElementType.cs" selected="True" />
+              <Node name="Functions" expanded="True">
+                <Node name="SeleniumBrowser.cs" selected="True" />
               </Node>
             </Node>
           </Node>
