@@ -1,26 +1,69 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using Selenium.Constants;
+using SeleniumExtras.WaitHelpers;
 using System;
+using System.Threading;
+using System.Linq;
 
 namespace Selenium.Functions
 {
-    public class SeleniumClick
+    public static class SeleniumClick
     {
-        public SeleniumClick()
+
+        public static void Click(By locator, int waitInSecs)
         {
+            WebDriverWait wait = new WebDriverWait(SeleniumDriver.GetDriver(), TimeSpan.FromSeconds(waitInSecs));
+            wait.IgnoreExceptionTypes(typeof(StaleElementReferenceException));
+            wait.Until(ExpectedConditions.ElementToBeClickable(locator)).Click();
         }
 
-        public void Click(By ElementLocation, int WaitTime)
+        public static void Click(By elementLocation) => Click(elementLocation, TimeConstants.DEFAULT_2_SECONDS);
+
+        public static void ClickMultipleElements(By elementLocation)
         {
-            WebDriverWait Wait = new WebDriverWait(SeleniumDriver.GetDriver(), TimeSpan.FromSeconds(WaitTime));
-            Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(ElementLocation)).Click();
+            foreach (IWebElement element in SeleniumDriver.GetDriver().FindElements(elementLocation))
+            {
+                WebDriverWait wait = new WebDriverWait(SeleniumDriver.GetDriver(), TimeSpan.FromSeconds(TimeConstants.DEFAULT_2_SECONDS));
+                wait.IgnoreExceptionTypes(typeof(StaleElementReferenceException));
+                wait.Until(ExpectedConditions.ElementToBeClickable(element)).Click();
+            }
         }
 
-        public void Click(By ElementLocation)
+        public static void ClickAndHold(By locator, int waitInSecs)
         {
-            Click(ElementLocation, TimeConstants.DEFAULT_2_SECONDS);
+            IWebDriver webDriver = SeleniumDriver.GetDriver();
+            Actions actions = new Actions(webDriver);
+            IWebElement onElement = webDriver.FindElement(locator);
+
+            actions.ClickAndHold(onElement).Build().Perform();
+            Thread.Sleep(TimeSpan.FromSeconds(waitInSecs).Milliseconds);
+            actions.Release(onElement).Build().Perform();
         }
 
+        public static void DoubleClick(By locator) => DoubleClick(locator, TimeConstants.DEFAULT_2_SECONDS);
+
+        public static void DoubleClick(By locator, int waitInSecs)
+        {
+            if (SeleniumVisibility.IsElementVisible(locator, waitInSecs))
+            {
+                IWebDriver webDriver = SeleniumDriver.GetDriver();
+                Actions actions = new Actions(webDriver);
+                actions.DoubleClick(webDriver.FindElement(locator)).Build().Perform();
+            }
+        }
+
+        public static void SendKeys(By locator, params string[] keys)
+        {
+            IWebDriver webDriver = SeleniumDriver.GetDriver();
+            Actions actions = new Actions(webDriver);
+            foreach (string key in keys)
+            {
+                actions.SendKeys(webDriver.FindElement(locator), key);
+                Thread.Sleep(1000);
+            }
+            actions.Build().Perform();
+        }
     }
 }
