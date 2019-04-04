@@ -1,13 +1,26 @@
-﻿<Properties StartupConfiguration="{DFF32086-30AD-4390-9895-313BF1727304}|Default">
-  <MonoDevelop.Ide.Workbench>
+﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{DFF32086-30AD-4390-9895-313BF1727304}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SeleniumFunctions Status">
+    <Files>
+      <File FileName="Selenium/Functions/SeleniumDriver.cs" Line="33" Column="46" />
+      <File FileName="Selenium/Functions/SeleniumClick.cs" Line="20" Column="10" />
+      <File FileName="Selenium/Functions/SeleniumVisibility.cs" Line="20" Column="2" />
+      <File FileName="Selenium/Functions/SeleniumBrowser.cs" Line="13" Column="10" />
+      <File FileName="Selenium/Functions/SeleniumText.cs" Line="16" Column="61" />
+      <File FileName="Selenium/Page Object/ElementType.cs" Line="8" Column="1" />
+      <File FileName="SeleniumFunctions Status" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Selenium" expanded="True">
             <Node name="Selenium" expanded="True">
-              <Node name="Functions" expanded="True">
-                <Node name="SeleniumBrowser.cs" selected="True" />
+              <Node name="References" expanded="True" />
+              <Node name="Packages" expanded="True" />
+              <Node name="Constants" expanded="True">
+                <Node name="TimeConstants.cs" selected="True" />
               </Node>
+              <Node name="Functions" expanded="True" />
+              <Node name="Page Object" expanded="True" />
             </Node>
           </Node>
         </State>

@@ -1,47 +1,55 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
+using Selenium.Constants;
+using Selenium.Functions;
 
 namespace Selenium.PageObject
 {
     public class PageElement
     {
-        private string Key;
-        private By ElementLocation;
-        private ElementType ElementType;
+        public By locator;
 
-        public PageElement()
+        public PageElement WithLocator(By locator)
         {
-
+            this.locator = locator;
+            return this;
         }
 
-        public string GetKey()
+        public void Click()
         {
-            return this.Key;
+            SeleniumClick.Click(this.locator, TimeConstants.DEFAULT_2_SECONDS);
+        }
+        public string GetValue()
+        {
+            return SeleniumText.GetValue(this.locator, TimeConstants.DEFAULT_5_SECONDS);
+        }
+        public void SetValue(string input)
+        {
+            SeleniumText.Type(this.locator, input);
+        }
+        public bool IsElementVisible()
+        {
+            return SeleniumVisibility.IsElementVisible(this.locator, TimeConstants.DEFAULT_10_SECONDS);
         }
 
-        public void SetKey(string Key)
+        public bool IsElementVisible(int waitTimeInSecs)
         {
-            this.Key = Key;
+            return SeleniumVisibility.IsElementVisible(this.locator, waitTimeInSecs);
         }
 
-        public ElementType GetElementType()
+        public bool IsElementNotVisible(int waitTimeInSecs)
         {
-            return this.ElementType;
+            return SeleniumVisibility.IsElementNotVisible(this.locator, waitTimeInSecs);
         }
 
-        public void SetElementType(ElementType ElementType)
+        public bool IsElementNotVisible()
         {
-            this.ElementType = ElementType;
+            return SeleniumVisibility.IsElementNotVisible(this.locator);
         }
 
-        public By GetElementLocation()
+        public void SetDropdownByVisibleText(string visibleTextOnDropdown)
         {
-            return this.ElementLocation;
+            SeleniumClick.SelectDropDownByVisibleText(this.locator, visibleTextOnDropdown);
         }
- 
-        public void SetElementLocation(By ElementLocation)
-        {
-            this.ElementLocation = ElementLocation;
-        }
-
     }
 }

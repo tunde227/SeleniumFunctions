@@ -2,10 +2,10 @@
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using Selenium.Constants;
-using SeleniumExtras.WaitHelpers;
 using System;
 using System.Threading;
 using System.Linq;
+using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
 
 namespace Selenium.Functions
 {
@@ -64,6 +64,18 @@ namespace Selenium.Functions
                 Thread.Sleep(1000);
             }
             actions.Build().Perform();
+        }
+
+        public static void SelectDropDownByVisibleText(By locator, string visibleText)
+        {
+            SelectElement dropdown = new SelectElement(SeleniumDriver.GetDriver().FindElement(locator));
+            dropdown.SelectByText(visibleText);
+
+            string dropdownText = dropdown.AllSelectedOptions.First(e => e.Selected).Text;
+            if (!dropdownText.Equals(visibleText))
+            {
+                Console.WriteLine("Dropdown was not set to value: " + visibleText);
+            }
         }
     }
 }
