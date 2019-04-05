@@ -38,11 +38,15 @@
     <Compile Include="Functions\SeleniumBrowser.cs" />
     <Compile Include="Constants\TimeConstants.cs" />
     <Compile Include="Functions\SeleniumText.cs" />
+    <Compile Include="Utility\Objects.cs" />
+    <Compile Include="Utility\Strings.cs" />
+    <Compile Include="Utility\Arrays.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Functions\" />
     <Folder Include="Page Object\" />
     <Folder Include="Constants\" />
+    <Folder Include="Utility\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
