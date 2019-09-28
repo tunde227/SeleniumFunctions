@@ -1,7 +1,10 @@
 .idea/*
-Selenium/obj/*
-obj/*
-Selenium/bin/*
-bin/*
+*/**/bin/Debug
+*/**/bin/Release
+*/**/obj/Debug
+*/**/obj/Release
 .vs/*
-packages/*
+packages/
+Selenium/obj/
+Selenium/bin/
+*.DS_Store
