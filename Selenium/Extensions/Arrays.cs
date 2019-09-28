@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Selenium.Utility
+namespace Selenium.Extensions
 {
     public static class Arrays
     {
@@ -22,7 +21,7 @@ namespace Selenium.Utility
 
             StringBuilder b = new StringBuilder();
             b.Append('[');
-            for (int i = 0; ; i++)
+            for (int i = 0;; i++)
             {
                 b.Append(a[i].ToString());
                 if (i == iMax)
