@@ -1,5 +1,7 @@
 .idea/*
 Selenium/obj/*
+obj/*
 Selenium/bin/*
+bin/*
 .vs/*
 packages/*
