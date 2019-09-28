@@ -1,0 +1,5 @@
+.idea/*
+Selenium/obj/*
+Selenium/bin/*
+.vs/*
+packages/*
