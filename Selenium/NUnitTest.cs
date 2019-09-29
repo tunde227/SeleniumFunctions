@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using Selenium.PageObject;
@@ -24,11 +22,11 @@ namespace Selenium
                 Name = "Test",
                 ElementType = ElementType.TEXT
             };
-            test.Click();
 
-            Console.WriteLine("TEST");
-            Console.WriteLine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName);
-            Console.WriteLine(Assembly.GetExecutingAssembly().GetName().Name);
+            test.ToList<PageElement>().ForEach(Console.WriteLine);
+
+//            List<IWebElement> webElements = test.ToList<IWebElement>().Where(e => e.Selected).ToList();
+//            Console.WriteLine(webElements);
         }
     }
 }

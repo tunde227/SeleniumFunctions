@@ -1,31 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
+using Selenium.Functions;
 using Selenium.Utility;
 
 namespace Selenium.PageObject
 {
-    public class PageElement : SeleniumUtility, IEquatable<PageElement>
+    public partial class PageElement : SeleniumUtility, IEquatable<PageElement>
     {
         public string Name { get; set; } = "";
         public By Locator { get; set; }
         public ElementType ElementType { get; set; }
-        public Action Frame { get; set; } = null;
+        public Action Frame { get; set; }
 
-        public void Click(TimeSpan? maxWaitTime = null) => Click(this, maxWaitTime);
-        public void DoubleClick(TimeSpan? maxWaitTime = null) => DoubleClick(this, maxWaitTime);
-        public void ClickAndHold(TimeSpan? maxWaitTime = null) => ClickAndHold(this, maxWaitTime);
-        public void RightClick(TimeSpan? maxWaitTime = null) => RightClick(this, maxWaitTime);
-        public void ClickMultipleElements() => ClickMultipleElements(this);
-        public void SendKeys(params string[] keys) => SendKeys(this, keys);
-        public void SelectDropDownByVisibleText(string visibleText) => SelectDropDownByVisibleText(this, visibleText);
-        public void SelectDropDownByValue(string value) => SelectDropDownByValue(this, value);
-        public void MoveToElement(TimeSpan? maxWaitTime) => MoveToElement(this, maxWaitTime);
-        public void Type(string input) => Type(this, input);
-        public string GetText(TimeSpan? maxWaitTime) => ExtractText(this, maxWaitTime, ElementType);
-        public bool IsElementVisible(TimeSpan? maxWaitTime = null) => IsElementVisible(this, maxWaitTime);
-        public bool IsElementNotVisible(TimeSpan? maxWaitTime = null) => IsElementNotVisible(this, maxWaitTime);
-        public bool IsElementSelected(TimeSpan? maxWaitTime = null) => IsElementSelected(this, maxWaitTime);
         public void GoToFrame() => Frame?.Invoke();
+
+        public List<T> ToList<T>()
+        {
+            if (typeof(T) == typeof(IWebElement))
+            {
+                return SeleniumDriver.Driver.FindElements(Locator).ToList() as List<T>;
+            }
+
+            if (typeof(T) == typeof(PageElement))
+            {
+                List<PageElement> pageElements = new List<PageElement>();
+
+                for (var index = 1; index <= SeleniumDriver.Driver.FindElements(Locator).Count; index++)
+                {
+                    pageElements.Add(new PageElement
+                    {
+                        Locator = ToXPath(Locator, index),
+                        Name = $"{Name} {index}",
+                        Frame = Frame,
+                        ElementType = ElementType
+                    });
+                }
+
+                return pageElements as List<T>;
+            }
+
+            return null;
+        }
+
+        public IWebElement ToWebElement() => SeleniumDriver.Driver.FindElement(Locator);
 
         public bool Equals(PageElement other)
         {
@@ -39,7 +58,7 @@ namespace Selenium.PageObject
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((PageElement) obj);
         }
 

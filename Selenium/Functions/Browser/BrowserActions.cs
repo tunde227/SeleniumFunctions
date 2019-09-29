@@ -1,57 +1,32 @@
-﻿using System;
-using System.Linq;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+﻿using System.Linq;
 
 namespace Selenium.Functions.Browser
 {
     public class BrowserActions
     {
-        public void Open(params IWebDriver[] drivers)
+        public void Open(string url)
         {
-            foreach (IWebDriver driver in drivers)
-            {
-                driver.Manage().Window.Maximize();
-                driver.Navigate().GoToUrl("");
-            }
-        }
-
-
-        public void Close(params IWebDriver[] drivers) => drivers.ToList().ForEach(driver => driver.Close());
-
-        public void Quit(params IWebDriver[] drivers) => drivers.ToList().ForEach(driver => driver.Quit());
-
-        public void OpenTab(params Tab[] tabs)
-        {
-        }
-
-        public void CloseTab(params Tab[] tabs)
-        {
-        }
-
-        public void SwitchTo(Tab tab)
-        {
-        }
-
-        public void SwitchTo(IWebDriver driver)
-        {
-        }
-
-        public void MaximizeWindow(IWebDriver driver) => driver.Manage().Window.Maximize();
-
-        public void MinimizeWindow(IWebDriver driver) => driver.Manage().Window.Minimize();
-
-        public static void Open(string url)
-        {
-            SeleniumDriver.Driver =
-                new ChromeDriver(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), null);
-            SeleniumDriver.Driver.Manage().Window.Maximize();
+            MaximizeWindow();
             SeleniumDriver.Driver.Navigate().GoToUrl(url);
         }
 
-        public static void Close()
+        public void SwitchToTab(Tab tab)
         {
-            SeleniumDriver.Driver.Close();
+            bool isClosed = !SeleniumDriver.Driver.WindowHandles.Any(handle => handle.Equals(tab.WindowHandle));
+            if (isClosed)
+            {
+                tab.Open();
+            }
+
+            SeleniumDriver.Driver.SwitchTo().Window(tab.WindowHandle);
         }
+
+        public void MaximizeWindow() => SeleniumDriver.Driver.Manage().Window.Maximize();
+
+        public void MinimizeWindow() => SeleniumDriver.Driver.Manage().Window.Minimize();
+
+
+        public static void Close() => SeleniumDriver.Driver.Close();
+        public static void Quit() => SeleniumDriver.Driver.Quit();
     }
 }
