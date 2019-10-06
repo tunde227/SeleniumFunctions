@@ -1,15 +1,12 @@
 ﻿using System;
 using log4net;
-using Selenium.Utility;
+using OpenQA.Selenium.Support.Extensions;
 
 namespace Selenium.Functions.Browser
 {
     public class Tab : IEquatable<Tab>
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(Tab));
-        public string Name { get; set; }
-        public string WindowHandle { get; set; }
-        public string Url { get; set; }
 
         public Tab()
         {
@@ -22,9 +19,22 @@ namespace Selenium.Functions.Browser
             Url = url;
         }
 
+        public string Name { get; set; }
+        public string WindowHandle { get; set; }
+        public string Url { get; set; }
+
+        public bool Equals(Tab other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return string.Equals(Name, other.Name, StringComparison.CurrentCultureIgnoreCase) &&
+                   string.Equals(WindowHandle, other.WindowHandle, StringComparison.CurrentCultureIgnoreCase) &&
+                   string.Equals(Url, other.Url, StringComparison.CurrentCultureIgnoreCase);
+        }
+
         public void Open()
         {
-            SeleniumDriver.Driver.ExecuteScript<object>("window.open();");
+            SeleniumDriver.Driver.ExecuteJavaScript("window.open();");
             SeleniumDriver.Driver.Navigate().GoToUrl(Url);
         }
 
@@ -38,17 +48,8 @@ namespace Selenium.Functions.Browser
             {
                 Logger.Warn("Will try to close using JavaScript.\n Error closing tab " +
                             $"{e.Message}{e.StackTrace}");
-                SeleniumDriver.Driver.ExecuteScript<object>("window.close();");
+                SeleniumDriver.Driver.ExecuteJavaScript("window.close();");
             }
-        }
-
-        public bool Equals(Tab other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return string.Equals(Name, other.Name, StringComparison.CurrentCultureIgnoreCase) &&
-                   string.Equals(WindowHandle, other.WindowHandle, StringComparison.CurrentCultureIgnoreCase) &&
-                   string.Equals(Url, other.Url, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public override bool Equals(object obj)

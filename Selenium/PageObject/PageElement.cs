@@ -14,6 +14,14 @@ namespace Selenium.PageObject
         public ElementType ElementType { get; set; }
         public Action Frame { get; set; }
 
+        public bool Equals(PageElement other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return string.Equals(Name, other.Name, StringComparison.CurrentCultureIgnoreCase) &&
+                   Equals(Locator, other.Locator) && ElementType == other.ElementType && Equals(Frame, other.Frame);
+        }
+
         public void GoToFrame() => Frame?.Invoke();
 
         public List<T> ToList<T>()
@@ -23,36 +31,26 @@ namespace Selenium.PageObject
                 return SeleniumDriver.Driver.FindElements(Locator).ToList() as List<T>;
             }
 
-            if (typeof(T) == typeof(PageElement))
+            if (typeof(T) != typeof(PageElement))
+                throw new NotSupportedException($"No Implementation for converting {typeof(T).Name} to List.");
+
+            List<PageElement> pageElements = new List<PageElement>();
+
+            for (var index = 1; index <= SeleniumDriver.Driver.FindElements(Locator).Count; index++)
             {
-                List<PageElement> pageElements = new List<PageElement>();
-
-                for (var index = 1; index <= SeleniumDriver.Driver.FindElements(Locator).Count; index++)
+                pageElements.Add(new PageElement
                 {
-                    pageElements.Add(new PageElement
-                    {
-                        Locator = ToXPath(Locator, index),
-                        Name = $"{Name} {index}",
-                        Frame = Frame,
-                        ElementType = ElementType
-                    });
-                }
-
-                return pageElements as List<T>;
+                    Locator = ToXPath(Locator, index),
+                    Name = $"{Name} {index}",
+                    Frame = Frame,
+                    ElementType = ElementType
+                });
             }
 
-            return null;
+            return pageElements as List<T>;
         }
 
         public IWebElement ToWebElement() => SeleniumDriver.Driver.FindElement(Locator);
-
-        public bool Equals(PageElement other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return string.Equals(Name, other.Name, StringComparison.CurrentCultureIgnoreCase) &&
-                   Equals(Locator, other.Locator) && ElementType == other.ElementType && Equals(Frame, other.Frame);
-        }
 
         public override bool Equals(object obj)
         {

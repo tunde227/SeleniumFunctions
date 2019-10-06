@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.12.0\build\NUnit.props')"/>
-  <Import Project="..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -31,73 +29,57 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\ValueNotSelectedException.cs"/>
-    <Compile Include="Functions\Actions\SeleniumClick.cs"/>
-    <Compile Include="Functions\Actions\SeleniumFrames.cs"/>
-    <Compile Include="Functions\Actions\SeleniumJavascript.cs"/>
-    <Compile Include="Functions\Actions\SeleniumSelection.cs"/>
-    <Compile Include="Functions\Actions\SeleniumText.cs"/>
-    <Compile Include="Functions\Actions\SeleniumVisibility.cs"/>
-    <Compile Include="PageObject\PageElement.cs"/>
-    <Compile Include="PageObject\ElementType.cs"/>
+      <Compile Include="Exceptions\ValueNotSelectedException.cs"/>
+      <Compile Include="Functions\Actions\SeleniumClick.cs"/>
+      <Compile Include="Functions\Actions\SeleniumFrames.cs"/>
+      <Compile Include="Functions\Actions\SeleniumJavascript.cs"/>
+      <Compile Include="Functions\Actions\SeleniumSelection.cs"/>
+      <Compile Include="Functions\Actions\SeleniumText.cs"/>
+      <Compile Include="Functions\Actions\SeleniumVisibility.cs"/>
+      <Compile Include="PageObject\PageElement.cs"/>
+      <Compile Include="PageObject\ElementType.cs"/>
     <Compile Include="Functions\SeleniumDriver.cs" />
     <Compile Include="NUnitTest.cs" />
-    <Compile Include="Extensions\Objects.cs"/>
-    <Compile Include="Extensions\StringExtensions.cs"/>
-    <Compile Include="Extensions\Arrays.cs"/>
-    <Compile Include="Functions\Browser\Browsers.cs"/>
-    <Compile Include="Functions\Browser\GetDriver.cs"/>
-    <Compile Include="Functions\Browser\BrowserActions.cs"/>
-    <Compile Include="Extensions\EnumExtensions.cs"/>
-    <Compile Include="Functions\Browser\Tab.cs"/>
-    <Compile Include="Functions\Browser\Browser.cs"/>
-    <Compile Include="PageObject\PageElementFunctions.cs"/>
-    <Compile Include="Utility\JavaScriptUtility.cs"/>
-    <Compile Include="Utility\SeleniumUtility.cs"/>
+      <Compile Include="Extensions\Objects.cs"/>
+      <Compile Include="Extensions\StringExtensions.cs"/>
+      <Compile Include="Extensions\Arrays.cs"/>
+      <Compile Include="Functions\Browser\Browsers.cs"/>
+      <Compile Include="Functions\Browser\GetDriver.cs"/>
+      <Compile Include="Functions\Browser\BrowserActions.cs"/>
+      <Compile Include="Extensions\EnumExtensions.cs"/>
+      <Compile Include="Functions\Browser\Tab.cs"/>
+      <Compile Include="Functions\Browser\Browser.cs"/>
+      <Compile Include="PageObject\PageElementActions.cs"/>
+      <Compile Include="Utility\CommandLineUtility.cs"/>
+      <Compile Include="Utility\SeleniumUtility.cs"/>
   </ItemGroup>
   <ItemGroup>
+      <Folder Include="Drivers"/>
     <Folder Include="Functions\" />
-    <Folder Include="PageObject\"/>
-    <Folder Include="Extensions\"/>
-    <Folder Include="Functions\Browser\"/>
+      <Folder Include="PageObject\"/>
+      <Folder Include="Extensions\"/>
+      <Folder Include="Functions\Browser\"/>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
-      <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="WebDriver">
-      <HintPath>..\packages\Selenium.WebDriver.3.141.0\lib\net45\WebDriver.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="SeleniumExtras.WaitHelpers">
-      <HintPath>..\packages\DotNetSeleniumExtras.WaitHelpers.3.11.0\lib\net45\SeleniumExtras.WaitHelpers.dll</HintPath>
-    </Reference>
-    <Reference Include="WebDriver.Support">
-      <HintPath>..\packages\Selenium.Support.3.141.0\lib\net45\WebDriver.Support.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.IO.Compression.ZipFile">
-      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
-    </Reference>
-    <Reference Include="mscorlib"/>
-    <Reference Include="System.IO.Compression.FileSystem"/>
+      <Reference Include="mscorlib"/>
+      <Reference Include="System.IO.Compression.FileSystem"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0"/>
-    <PackageReference Include="log4net" Version="2.0.8"/>
-    <PackageReference Include="NUnit" Version="3.12.0"/>
-    <PackageReference Include="NUnit.ConsoleRunner" Version="3.10.0"/>
-    <PackageReference Include="NUnit3TestAdapter" Version="3.15.1"/>
-    <PackageReference Include="Selenium.Support" Version="3.141.0"/>
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0"/>
-    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0"/>
+      <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0"/>
+      <PackageReference Include="log4net" Version="2.0.8"/>
+      <PackageReference Include="NUnit" Version="3.12.0"/>
+      <PackageReference Include="NUnit.ConsoleRunner" Version="3.10.0"/>
+      <PackageReference Include="NUnit3TestAdapter" Version="3.15.1"/>
+      <PackageReference Include="Selenium.Support" Version="3.141.0"/>
+      <PackageReference Include="Selenium.WebDriver" Version="3.141.0"/>
+      <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0"/>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))"/>
   </Target>
 </Project>

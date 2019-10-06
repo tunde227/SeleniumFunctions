@@ -1,4 +1,5 @@
 using System;
+using Selenium.Functions.Actions;
 
 namespace Selenium.PageObject
 {
@@ -18,5 +19,6 @@ namespace Selenium.PageObject
         public bool IsElementVisible(TimeSpan? maxWaitTime = null) => IsElementVisible(this, maxWaitTime);
         public bool IsElementNotVisible(TimeSpan? maxWaitTime = null) => IsElementNotVisible(this, maxWaitTime);
         public bool IsElementSelected(TimeSpan? maxWaitTime = null) => IsElementSelected(this, maxWaitTime);
+        public SeleniumJavascript JavaScript() => new SeleniumJavascript(this);
     }
 }

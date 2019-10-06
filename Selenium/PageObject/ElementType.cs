@@ -4,12 +4,12 @@
     {
         BUTTON,
         TABLE_DATA,
-        ATTRIBUTE,
+        ATTRIBUTE_VALUE,
         TEXT,
         LABEL,
         RADIO_BUTTON,
         INPUT_TEXT,
-        INPUT_ATTRIBUTE,
+        INPUT_ATTRIBUTE_VALUE,
         CHECKBOX,
         DROPDOWN
     }

@@ -10,8 +10,8 @@ namespace Selenium.Functions.Actions
 {
     public class SeleniumText : SeleniumSelection
     {
-        private static readonly TimeSpan Default5Seconds = TimeSpan.FromSeconds(5);
         private const string TextNotFound = "Text not found for object!";
+        private static readonly TimeSpan Default5Seconds = TimeSpan.FromSeconds(5);
 
         protected static void Type(PageElement pageElement, string input)
         {
@@ -50,7 +50,7 @@ namespace Selenium.Functions.Actions
 
         private static string GetTextByType(ElementType elementType, IWebElement element)
         {
-            if (ElementType.ATTRIBUTE.Equals(elementType))
+            if (ElementType.ATTRIBUTE_VALUE.Equals(elementType))
             {
                 return element.GetAttribute("value");
             }
