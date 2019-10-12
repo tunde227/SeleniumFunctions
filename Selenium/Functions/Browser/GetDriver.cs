@@ -10,21 +10,19 @@ namespace Selenium.Functions.Browser
 {
     public static class GetDriver
     {
-        public static Driver Download(Browsers browser, string version,
-            string downloadLocation) => new Driver().Browser(browser)
-            .WithDriverVersion(version).WithDownloadLocation(downloadLocation)
-            .Build();
+        public static Driver DriverBuilder() => new Driver();
+
 
         public class Driver
         {
-            public string Version { get; set; } = "";
-            public string Location { get; set; } = "";
-            public string Url { get; set; } = "";
-            private Browsers _browser;
+            private string Version { get; set; } = "";
+            private string Location { get; set; } = "";
+            private string Url { get; set; } = "";
+            private Browsers Browser { get; set; }
 
-            public Driver Browser(Browsers browser)
+            public Driver WithBrowser(Browsers browser)
             {
-                _browser = browser;
+                Browser = browser;
                 return this;
             }
 
@@ -49,39 +47,51 @@ namespace Selenium.Functions.Browser
 
             private string GetUrl()
             {
-                switch (_browser)
+                return Browser switch
                 {
-                    case CHROME:
-                        return $"https://chromedriver.storage.googleapis.com/" +
-                               $"index.html?path={Version}/{DriverZip()}";
-                    case FIREFOX:
-                        return $"https://github.com/mozilla/geckodriver/" +
-                               $"releases/download/v{Version}/{DriverZip()}";
-                    case IE:
-                        return "";
-                    case EDGE:
-                        return "";
-                    default:
-                        throw new Exception($"{_browser.ToString()} is not " +
-                                            "accounted for.  Unable to build URL.");
-                }
+                    CHROME => ("https://chromedriver.storage.googleapis.com/" +
+                               $"index.html?path={Version}/{DriverZip()}"),
+                    FIREFOX => ("https://github.com/mozilla/geckodriver/" +
+                                $"releases/download/v{Version}/{DriverZip()}"),
+                    EDGE => $"https://msedgewebdriverstorage.z22.web.core.windows.net/?prefix={Version}/{DriverZip()}",
+                    SAFARI => null,
+                    _ => throw new Exception($"{Browser.ToString()} is not " + "accounted for.  Unable to build URL.")
+                };
             }
 
             private string DriverZip()
             {
-                switch (_browser)
+                return Browser switch
                 {
-                    case CHROME:
-                        return ChromeDriverZip();
-                    case FIREFOX:
-                        return FirefoxDriverZip();
-                    case IE:
-                        return "";
-                    case EDGE:
-                        return "";
-                    default:
-                        return "";
+                    CHROME => ChromeDriverZip(),
+                    FIREFOX => FirefoxDriverZip(),
+                    EDGE => EdgeDriverZip(),
+                    SAFARI => null,
+                    _ => ""
+                };
+            }
+
+            private static string EdgeDriverZip()
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    && Environment.Is64BitOperatingSystem)
+                {
+                    return "edgedriver_win64.zip";
                 }
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    && !Environment.Is64BitOperatingSystem)
+                {
+                    return "edgedriver_win32.zip";
+                }
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    return "edgedriver_mac64.zip";
+                }
+
+                throw new Exception($"{RuntimeInformation.OSDescription} " +
+                                    "Operating System is not accounted for.");
             }
 
             private string FirefoxDriverZip()
@@ -91,28 +101,32 @@ namespace Selenium.Functions.Browser
                 {
                     return $"geckodriver-v{Version}-win64.zip";
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                         && !Environment.Is64BitOperatingSystem)
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    && !Environment.Is64BitOperatingSystem)
                 {
                     return $"geckodriver-v{Version}-win32.zip";
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
                     return $"geckodriver-v{Version}-macos.tar.gz";
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
-                         && Environment.Is64BitOperatingSystem)
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+                    && Environment.Is64BitOperatingSystem)
                 {
                     return $"geckodriver-v{Version}-linux64.tar.gz";
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
-                         && !Environment.Is64BitOperatingSystem)
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+                    && !Environment.Is64BitOperatingSystem)
                 {
                     return $"geckodriver-v{Version}-linux32.tar.gz";
                 }
-                else
-                    throw new Exception($"{RuntimeInformation.OSDescription} " +
-                                        "Operating System is not accounted for.");
+
+                throw new Exception($"{RuntimeInformation.OSDescription} " +
+                                    "Operating System is not accounted for.");
             }
 
             private static string ChromeDriverZip()
@@ -121,17 +135,19 @@ namespace Selenium.Functions.Browser
                 {
                     return "chromedriver_win32.zip";
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
                     return "chromedriver_mac64.zip";
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
                     return "chromedriver_linux64.zip";
                 }
-                else
-                    throw new Exception($"{RuntimeInformation.OSDescription} " +
-                                        "Operating System is not accounted for.");
+
+                throw new Exception($"{RuntimeInformation.OSDescription} " +
+                                    "Operating System is not accounted for.");
             }
 
             public Driver Build()
@@ -143,7 +159,7 @@ namespace Selenium.Functions.Browser
                 }
 
                 ZipFile.ExtractToDirectory(Location, Path.Combine(Location,
-                    $"\\{_browser.ToString().ToLower()}_{Version}"));
+                    $"\\{Browser.ToString().ToLower()}_{Version}"));
                 return this;
             }
         }

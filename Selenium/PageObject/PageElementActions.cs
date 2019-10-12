@@ -13,9 +13,9 @@ namespace Selenium.PageObject
         public void SendKeys(params string[] keys) => SendKeys(this, keys);
         public void SelectDropDownByVisibleText(string visibleText) => SelectDropDownByVisibleText(this, visibleText);
         public void SelectDropDownByValue(string value) => SelectDropDownByValue(this, value);
-        public void MoveToElement(TimeSpan? maxWaitTime) => MoveToElement(this, maxWaitTime);
+        public void MoveToElement(TimeSpan? maxWaitTime = null) => MoveToElement(this, maxWaitTime);
         public void Type(string input) => Type(this, input);
-        public string GetText(TimeSpan? maxWaitTime) => ExtractText(this, maxWaitTime, ElementType);
+        public string GetText(TimeSpan? maxWaitTime = null) => ExtractText(this, maxWaitTime);
         public bool IsElementVisible(TimeSpan? maxWaitTime = null) => IsElementVisible(this, maxWaitTime);
         public bool IsElementNotVisible(TimeSpan? maxWaitTime = null) => IsElementNotVisible(this, maxWaitTime);
         public bool IsElementSelected(TimeSpan? maxWaitTime = null) => IsElementSelected(this, maxWaitTime);

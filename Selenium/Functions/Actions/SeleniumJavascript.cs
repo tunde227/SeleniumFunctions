@@ -44,7 +44,7 @@ namespace Selenium.Functions.Actions
 
         private void By(PageElement element)
         {
-            string type = element.Locator.ToString().SubstringBefore(":").Strip("By.");
+            string type = element.Locator.ToString().SubstringBefore(": ").Strip("By.");
             string locator = element.Locator.ToString().SubstringAfter(": ");
 
             switch (type.ToLowerInvariant())
@@ -71,7 +71,7 @@ namespace Selenium.Functions.Actions
                     ToJavaScript(XPath, $"//a[text()='{locator}']", false);
                     break;
                 case "partiallinktext":
-                    ToJavaScript(XPath, $"a[contains(text(), '{locator}')]", false);
+                    ToJavaScript(XPath, $"//a[contains(text(), '{locator}')]", false);
                     break;
                 default:
                     throw new InvalidCastException($"Not able to case {type} to JavaScript.");
@@ -85,7 +85,7 @@ namespace Selenium.Functions.Actions
             HasIndex = hasIndex;
         }
 
-        private string AddIndex(int index = 0) => HasIndex ? $"[{index}]" : "";
+        private string AddIndex(int index = 0) => HasIndex ? $"[{index}]" : string.Empty;
 
         public void Focus(int index = 0, TimeSpan? maxWaitTime = null)
         {
@@ -104,7 +104,9 @@ namespace Selenium.Functions.Actions
         public void Type(string input, int index = 0, TimeSpan? maxWaitTime = null)
         {
             Clear();
-            var script = ElementType.INPUT_ATTRIBUTE_VALUE.Equals(Element.ElementType)
+            Focus(index, maxWaitTime);
+            Blur(index, maxWaitTime);
+            string script = ElementType.INPUT_ATTRIBUTE_VALUE.Equals(Element.ElementType)
                 ? $"{WaitForElementToDisplay(index, maxWaitTime)}.setAttribute(value, {input})"
                 : $"{WaitForElementToDisplay(index, maxWaitTime)}.innerHTML = {input}";
 
@@ -218,12 +220,14 @@ namespace Selenium.Functions.Actions
             SeleniumDriver.Driver.ExecuteJavaScript(script);
         }
 
-        public string ReadyState(int index = 0)
+        public string ReadyState()
         {
-            string script = "document.readyState";
+            const string script = "document.readyState";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             return SeleniumDriver.Driver.ExecuteJavaScript<string>(script);
         }
+
+        public bool IsReadyState(string expectedState) => ReadyState().EqualsIgnoreCase(expectedState);
 
         private string WaitForElementToDisplay(int index, TimeSpan? maxWaitTime = null)
         {
@@ -249,7 +253,7 @@ namespace Selenium.Functions.Actions
         {
             unchecked
             {
-                var hashCode = (JavaScript != null ? JavaScript.GetHashCode() : 0);
+                int hashCode = (JavaScript != null ? JavaScript.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (Locator != null ? Locator.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ HasIndex.GetHashCode();
                 hashCode = (hashCode * 397) ^ (Element != null ? Element.GetHashCode() : 0);
@@ -257,16 +261,9 @@ namespace Selenium.Functions.Actions
             }
         }
 
-        public static bool operator ==(SeleniumJavascript left, SeleniumJavascript right)
-        {
-            return Equals(left, right);
-        }
+        public static bool operator ==(SeleniumJavascript left, SeleniumJavascript right) => Equals(left, right);
 
-        public static bool operator !=(SeleniumJavascript left, SeleniumJavascript right)
-        {
-            return !Equals(left, right);
-        }
-
+        public static bool operator !=(SeleniumJavascript left, SeleniumJavascript right) => !Equals(left, right);
         public override string ToString() => JavaScript.Replace("@", Locator);
     }
 }

@@ -21,10 +21,10 @@ namespace Selenium.Functions.Actions
             element.Clear();
             element.SendKeys(input);
 
-            Assert.AreEqual(input, ExtractText(pageElement, Default5Seconds, ElementType.TEXT));
+            Assert.AreEqual(input, ExtractText(pageElement, Default5Seconds));
         }
 
-        protected static string ExtractText(PageElement pageElement, TimeSpan? maxWaitTime, ElementType elementType)
+        protected static string ExtractText(PageElement pageElement, TimeSpan? maxWaitTime)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Selenium.Functions.Actions
                     ExpectedConditions.ElementIsVisible(pageElement.Locator),
                     maxWaitTime ?? Default5Seconds);
 
-                string text = GetTextByType(elementType, element);
+                string text = GetTextByType(pageElement.ElementType, element);
 
                 if (text == null)
                 {
@@ -50,18 +50,13 @@ namespace Selenium.Functions.Actions
 
         private static string GetTextByType(ElementType elementType, IWebElement element)
         {
-            if (ElementType.ATTRIBUTE_VALUE.Equals(elementType))
+            return elementType switch
             {
-                return element.GetAttribute("value");
-            }
-
-            if (ElementType.TEXT.Equals(elementType))
-            {
-                return element.Text;
-            }
-
-            throw new NotImplementedException($"Extracting text by {elementType} not implemented " +
-                                              $"in {typeof(SeleniumText).Name} | {MethodBase.GetCurrentMethod().Name}");
+                ElementType.ATTRIBUTE_VALUE => element.GetAttribute("value"),
+                ElementType.TEXT => element.Text,
+                _ => throw new NotImplementedException($"Extracting text by {elementType} not implemented " +
+                                                       $"in {typeof(SeleniumText).Name} | {MethodBase.GetCurrentMethod().Name}")
+            };
         }
     }
 }

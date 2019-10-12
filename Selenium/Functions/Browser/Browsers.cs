@@ -5,7 +5,6 @@
         CHROME,
         FIREFOX,
         SAFARI,
-        IE,
         EDGE
     }
 }
