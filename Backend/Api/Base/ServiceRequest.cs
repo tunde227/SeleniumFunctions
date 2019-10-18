@@ -16,20 +16,15 @@ namespace Backend.Api.Base
         public abstract string Url { get; }
         protected abstract Method GetHtmlMethod();
         public abstract List<(string, string)> GetHeaders();
-        protected virtual string GeneratePayload() => "";
+        protected virtual string GeneratePayload() => string.Empty;
 
         protected internal string PrepareUrl()
         {
             string url = Url;
             Logger.Debug($"{CallerClass} -> URL: {url}");
-            return url; //require non null.
-        }
-
-        protected internal static void PrintResponse(IRestResponse response)
-        {
-            Logger.Debug($"Status Code: {response.StatusCode} - Status Description: {response.StatusDescription} - " +
-                         $"HTTP Status: {response.ResponseStatus} - Content-Type: {response.ContentType} - " +
-                         $"Response Content: {response.Content} - ");
+            return string.IsNullOrEmpty(url)
+                ? throw new NotSupportedException($"Please provide a URL for {CallerClass} API.")
+                : url;
         }
 
         protected internal RestRequest GetRequest()
@@ -39,10 +34,8 @@ namespace Backend.Api.Base
             return request;
         }
 
-        protected internal void AddBody(RestRequest request)
-        {
+        protected internal void AddBody(RestRequest request) =>
             request.AddParameter("", GeneratePayload(), ParameterType.RequestBody);
-        }
 
         public virtual TSource CompleteServiceRequest([CallerFilePath] string sourceFilePath = "")
         {
@@ -59,6 +52,13 @@ namespace Backend.Api.Base
                 ? sourceFilePath.Substring(sourceFilePath.LastIndexOf("\\", StringComparison.Ordinal) + 1)
                     .Replace(".cs", "")
                 : "";
+        }
+
+        protected internal static void PrintResponse(IRestResponse response)
+        {
+            Logger.Debug($"Status Code: {response.StatusCode} - Status Description: {response.StatusDescription} - " +
+                         $"HTTP Status: {response.ResponseStatus} - Content-Type: {response.ContentType} - " +
+                         $"\n Response Content: {response.Content} - ");
         }
     }
 }
