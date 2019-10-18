@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
-using Selenium.Extensions;
+using Core.Extensions;
 using static Selenium.Functions.Browser.Browser;
 
 namespace Selenium.Functions.Browser

@@ -1,8 +1,8 @@
 using System;
 using System.Reflection;
+using Core.Extensions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using Selenium.Extensions;
 using Selenium.Functions;
 using Selenium.Functions.Actions;
 

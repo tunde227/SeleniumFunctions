@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Core.Extensions;
 using NUnit.Framework;
-using Selenium.Extensions;
 
 namespace Selenium
 {

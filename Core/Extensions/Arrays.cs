@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Selenium.Extensions
+namespace Core.Extensions
 {
     public static class Arrays
     {

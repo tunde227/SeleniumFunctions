@@ -1,7 +1,7 @@
 ﻿using System;
-using Selenium.Utility;
+using Core.Utility;
 
-namespace Selenium.Extensions
+namespace Core.Extensions
 {
     public static partial class Objects
     {

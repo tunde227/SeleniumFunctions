@@ -7,9 +7,9 @@ using log4net;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 
-namespace Backend.ApiSetup
+namespace Backend.Api.Base
 {
-    public abstract class RequestWithoutBody<TSource> : BaseRequest<TSource> where TSource : new()
+    public abstract class RequestWithoutBody<TSource> : ServiceRequest<TSource> where TSource : new()
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(RequestWithoutBody<TSource>));
 

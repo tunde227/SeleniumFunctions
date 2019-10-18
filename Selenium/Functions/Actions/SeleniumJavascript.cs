@@ -1,9 +1,9 @@
 using System;
 using System.Reflection;
+using Core.Extensions;
 using log4net;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
-using Selenium.Extensions;
 using Selenium.PageObject;
 using Selenium.Utility;
 

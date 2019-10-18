@@ -1,11 +1,11 @@
 using Backend.Utility;
 using log4net;
 
-namespace Backend.ApiSetup
+namespace Backend.Api.Base
 {
-    public abstract class Payload<TSource> : RequestWithoutBody<TSource> where TSource : new()
+    public abstract class RequestPayload<TSource> : RequestWithoutBody<TSource> where TSource : new()
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(Payload<TSource>));
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(RequestPayload<TSource>));
 
         public abstract string GetTemplateDirectory();
         public abstract string GetFileName();

@@ -1,18 +1,18 @@
-using System.Reflection;
+using Backend.Api.Base;
 using RestSharp;
 
-namespace Backend.ApiSetup
+namespace Backend.Api.HTTP
 {
-    public abstract class RequestWithBody<TSource> : RequestWithoutBody<TSource> where TSource : new()
+    public abstract class Get<TSource> : RequestWithoutBody<TSource> where TSource : new()
     {
+        protected override Method GetHtmlMethod() => Method.GET;
+
         public override TSource CompleteServiceRequest(string sourceFilePath = "")
         {
             CallerClass = FormatCallerClass(sourceFilePath);
-            CallingAssembly = Assembly.GetCallingAssembly();
-
             RestRequest request = GetRequest();
-            AddBody(request);
             IRestResponse response = new RestClient().Execute(request);
+            PrintResponse(response);
             return Deserialize(response);
         }
     }

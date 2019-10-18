@@ -5,11 +5,11 @@ using System.Runtime.CompilerServices;
 using log4net;
 using RestSharp;
 
-namespace Backend.ApiSetup
+namespace Backend.Api.Base
 {
-    public abstract class BaseRequest<TSource> : ApiHelpers where TSource : new()
+    public abstract class ServiceRequest<TSource> where TSource : new()
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(BaseRequest<TSource>));
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(ServiceRequest<TSource>));
 
         public Assembly CallingAssembly { get; set; }
         protected internal string CallerClass { get; set; }

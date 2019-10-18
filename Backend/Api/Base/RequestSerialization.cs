@@ -1,8 +1,8 @@
 using RestSharp;
 
-namespace Backend.ApiSetup
+namespace Backend.Api.Base
 {
-    public abstract class RequestSerialization<TSource> : BaseRequest<TSource> where TSource : new()
+    public abstract class RequestSerialization<TSource> : ServiceRequest<TSource> where TSource : new()
     {
         public abstract string GetPayload();
 

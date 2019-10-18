@@ -1,6 +1,7 @@
+using Backend.Api.Base;
 using RestSharp;
 
-namespace Backend.ApiSetup
+namespace Backend.Api.HTTP
 {
     public abstract class PostObject<TSource> : RequestSerialization<TSource> where TSource : new()
     {

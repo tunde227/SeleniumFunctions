@@ -9,72 +9,71 @@
     <AssemblyName>Selenium</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
   </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <Optimize>true</Optimize>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>
-        <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <DefineConstants>DEBUG;</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>
-        <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-      <Compile Include="Exceptions\ValueNotSelectedException.cs"/>
-      <Compile Include="Extensions\CollectionExtensions.cs"/>
-      <Compile Include="Functions\Actions\SeleniumClick.cs"/>
-      <Compile Include="Functions\Actions\SeleniumFrames.cs"/>
-      <Compile Include="Functions\Actions\SeleniumJavascript.cs"/>
-      <Compile Include="Functions\Actions\SeleniumSelection.cs"/>
-      <Compile Include="Functions\Actions\SeleniumText.cs"/>
-      <Compile Include="Functions\Actions\SeleniumVisibility.cs"/>
-      <Compile Include="PageObject\PageElement.cs"/>
-      <Compile Include="PageObject\ElementType.cs"/>
+    <Compile Include="Exceptions\ValueNotSelectedException.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Functions\Actions\SeleniumClick.cs" />
+    <Compile Include="Functions\Actions\SeleniumFrames.cs" />
+    <Compile Include="Functions\Actions\SeleniumJavascript.cs" />
+    <Compile Include="Functions\Actions\SeleniumSelection.cs" />
+    <Compile Include="Functions\Actions\SeleniumText.cs" />
+    <Compile Include="Functions\Actions\SeleniumVisibility.cs" />
+    <Compile Include="PageObject\PageElement.cs" />
+    <Compile Include="PageObject\ElementType.cs" />
     <Compile Include="Functions\SeleniumDriver.cs" />
     <Compile Include="NUnitTest.cs" />
-      <Compile Include="Extensions\Objects.cs"/>
-      <Compile Include="Extensions\StringExtensions.cs"/>
-      <Compile Include="Extensions\Arrays.cs"/>
-      <Compile Include="Functions\Browser\Browser.cs"/>
-      <Compile Include="Functions\Browser\Driver.cs"/>
-      <Compile Include="Functions\Browser\BrowserActions.cs"/>
-      <Compile Include="Extensions\EnumExtensions.cs"/>
-      <Compile Include="Functions\Browser\Tab.cs"/>
-      <Compile Include="PageObject\PageElementActions.cs"/>
-      <Compile Include="Utility\CommandLineUtility.cs"/>
-      <Compile Include="Utility\ObjectDumper.cs"/>
-      <Compile Include="Utility\SeleniumUtility.cs"/>
+    <Compile Include="Functions\Browser\Browser.cs" />
+    <Compile Include="Functions\Browser\Driver.cs" />
+    <Compile Include="Functions\Browser\BrowserActions.cs" />
+    <Compile Include="Functions\Browser\Tab.cs" />
+    <Compile Include="PageObject\PageElementActions.cs" />
+    <Compile Include="Utility\SeleniumUtility.cs" />
   </ItemGroup>
   <ItemGroup>
-      <Folder Include="Drivers"/>
+    <Folder Include="Drivers" />
     <Folder Include="Functions\" />
-      <Folder Include="PageObject\"/>
-      <Folder Include="Extensions\"/>
-      <Folder Include="Functions\Browser\"/>
+    <Folder Include="PageObject\" />
+    <Folder Include="Functions\Browser\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Drawing" />
     <Reference Include="System" />
-      <Reference Include="mscorlib"/>
-      <Reference Include="System.IO.Compression.FileSystem"/>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.IO.Compression.FileSystem" />
   </ItemGroup>
   <ItemGroup>
-      <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0"/>
-      <PackageReference Include="log4net" Version="2.0.8"/>
-      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0"/>
-      <PackageReference Include="NUnit" Version="3.12.0"/>
-      <PackageReference Include="NUnit.Console" Version="3.10.0"/>
-      <PackageReference Include="NUnit3TestAdapter" Version="3.15.1"/>
-      <PackageReference Include="Selenium.Support" Version="3.141.0"/>
-      <PackageReference Include="Selenium.WebDriver" Version="3.141.0"/>
-      <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0"/>
+    <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit.Console" Version="3.10.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
+    <PackageReference Include="Selenium.Support" Version="3.141.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{3fa91eb0-785a-42a8-8651-4508fddc31e4}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

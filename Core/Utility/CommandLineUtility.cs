@@ -1,4 +1,4 @@
-namespace Selenium.Utility
+namespace Core.Utility
 {
     internal class CommandLineUtility
     {
