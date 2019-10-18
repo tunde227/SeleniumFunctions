@@ -5,10 +5,7 @@ namespace Selenium.Extensions
 {
     public static class Arrays
     {
-        public static List<T> AsList<T>(params T[] arg)
-        {
-            return new List<T>(arg);
-        }
+        public static List<T> AsList<T>(params T[] arg) => new List<T>(arg);
 
         public static string ToString(params object[] a)
         {
@@ -19,9 +16,9 @@ namespace Selenium.Extensions
             if (iMax == -1)
                 return "[]";
 
-            StringBuilder b = new StringBuilder();
+            var b = new StringBuilder();
             b.Append('[');
-            for (int i = 0;; i++)
+            for (var i = 0;; i++)
             {
                 b.Append(a[i].ToString());
                 if (i == iMax)
@@ -29,5 +26,7 @@ namespace Selenium.Extensions
                 b.Append(", ");
             }
         }
+
+        public static bool IsEmpty<T>(this T[] source) => source == null || source.Length == 0;
     }
 }

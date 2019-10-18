@@ -2,15 +2,16 @@
 
 namespace Selenium.Functions.Browser
 {
-    public abstract class Browser
+    public enum Browser
     {
-        private Browsers _browser;
+        CHROME,
+        FIREFOX,
+        SAFARI,
+        EDGE
+    }
 
-        public Browser(Browsers browser)
-        {
-            _browser = browser;
-        }
-
-        public abstract DriverOptions ChromeOptions();
+    public abstract class BrowserOptions
+    {
+        public abstract DriverOptions Options();
     }
 }

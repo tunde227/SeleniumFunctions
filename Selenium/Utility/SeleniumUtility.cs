@@ -14,7 +14,7 @@ namespace Selenium.Utility
 
         public static TResult WebDriverWait<TResult>(Func<IWebDriver, TResult> condition, TimeSpan? waitInSecs = null)
         {
-            WebDriverWait wait = new WebDriverWait(SeleniumDriver.Driver, waitInSecs ?? Default5Seconds);
+            var wait = new WebDriverWait(SeleniumDriver.Driver, waitInSecs ?? Default5Seconds);
             wait.IgnoreExceptionTypes(typeof(StaleElementReferenceException));
             return wait.Until(condition.Invoke);
         }
@@ -24,24 +24,17 @@ namespace Selenium.Utility
             string locatorType = locator.ToString().SubstringBefore(": ").Strip("By.");
             string element = locator.ToString().SubstringAfter(": ");
 
-            switch (locatorType)
+            return locatorType switch
             {
-                case "ID":
-                    return By.XPath($"(//*[@id='{element}'])[{index}]");
-                case "Name":
-                    return By.XPath($"(//*[@name='{element}'])[{index}]");
-                case "TagName":
-                    return By.XPath($"(//{element})[{index}]");
-                case "LinkText":
-                    return By.XPath($"(//a[text()='{element}'])[{index}]");
-                case "PartialLinkText":
-                    return By.XPath($"(//a[contains(text(), '{element}')])[{index}]");
-                case "ClassName":
-                    return By.XPath($"(//*[@class='{element}'])[{index}]");
-                default:
-                    throw new NotImplementedException(
-                        $"{locatorType} is not implemented in {MethodBase.GetCurrentMethod().Name}");
-            }
+                "ID" => By.XPath($"(//*[@id='{element}'])[{index}]"),
+                "Name" => By.XPath($"(//*[@name='{element}'])[{index}]"),
+                "TagName" => By.XPath($"(//{element})[{index}]"),
+                "LinkText" => By.XPath($"(//a[text()='{element}'])[{index}]"),
+                "PartialLinkText" => By.XPath($"(//a[contains(text(), '{element}')])[{index}]"),
+                "ClassName" => By.XPath($"(//*[@class='{element}'])[{index}]"),
+                _ => throw new NotImplementedException(
+                    $"{locatorType} is not implemented in {MethodBase.GetCurrentMethod().Name}")
+            };
         }
     }
 }

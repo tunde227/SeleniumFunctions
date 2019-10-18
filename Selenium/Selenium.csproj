@@ -28,6 +28,7 @@
   </PropertyGroup>
   <ItemGroup>
       <Compile Include="Exceptions\ValueNotSelectedException.cs"/>
+      <Compile Include="Extensions\CollectionExtensions.cs"/>
       <Compile Include="Functions\Actions\SeleniumClick.cs"/>
       <Compile Include="Functions\Actions\SeleniumFrames.cs"/>
       <Compile Include="Functions\Actions\SeleniumJavascript.cs"/>
@@ -41,14 +42,14 @@
       <Compile Include="Extensions\Objects.cs"/>
       <Compile Include="Extensions\StringExtensions.cs"/>
       <Compile Include="Extensions\Arrays.cs"/>
-      <Compile Include="Functions\Browser\Browsers.cs"/>
-      <Compile Include="Functions\Browser\GetDriver.cs"/>
+      <Compile Include="Functions\Browser\Browser.cs"/>
+      <Compile Include="Functions\Browser\Driver.cs"/>
       <Compile Include="Functions\Browser\BrowserActions.cs"/>
       <Compile Include="Extensions\EnumExtensions.cs"/>
       <Compile Include="Functions\Browser\Tab.cs"/>
-      <Compile Include="Functions\Browser\Browser.cs"/>
       <Compile Include="PageObject\PageElementActions.cs"/>
       <Compile Include="Utility\CommandLineUtility.cs"/>
+      <Compile Include="Utility\ObjectDumper.cs"/>
       <Compile Include="Utility\SeleniumUtility.cs"/>
   </ItemGroup>
   <ItemGroup>
@@ -67,8 +68,9 @@
   <ItemGroup>
       <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0"/>
       <PackageReference Include="log4net" Version="2.0.8"/>
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0"/>
       <PackageReference Include="NUnit" Version="3.12.0"/>
-      <PackageReference Include="NUnit.ConsoleRunner" Version="3.10.0"/>
+      <PackageReference Include="NUnit.Console" Version="3.10.0"/>
       <PackageReference Include="NUnit3TestAdapter" Version="3.15.1"/>
       <PackageReference Include="Selenium.Support" Version="3.141.0"/>
       <PackageReference Include="Selenium.WebDriver" Version="3.141.0"/>

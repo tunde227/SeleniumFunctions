@@ -38,12 +38,7 @@ namespace Selenium.Extensions
             }
 
             int pos = source.IndexOf(separator, StringComparison.CurrentCulture);
-            if (pos == IndexNotFound)
-            {
-                return source;
-            }
-
-            return source.Substring(0, pos).Trim();
+            return pos == IndexNotFound ? source : source.Substring(0, pos).Trim();
         }
 
         public static string SubstringAfter(this string source, string separator)
@@ -59,12 +54,7 @@ namespace Selenium.Extensions
             }
 
             int pos = source.IndexOf(separator, StringComparison.CurrentCulture);
-            if (pos == IndexNotFound)
-            {
-                return source;
-            }
-
-            return source.Substring(pos + separator.Length).Trim();
+            return pos == IndexNotFound ? source : source.Substring(pos + separator.Length).Trim();
         }
 
         public static bool EqualsIgnoreCase(this string source, string str) =>
@@ -83,5 +73,6 @@ namespace Selenium.Extensions
 
         public static string Append(this string source, char str) => source += str.ToString();
         public static string Strip(this string source, string value) => source.Replace(value, "");
+        public static string StripWs(this string source) => source.Strip(" ");
     }
 }

@@ -4,3 +4,5 @@ packages/
 Selenium/obj/
 Selenium/bin/
 *.DS_Store
+Backend/obj/
+Backend/bin/

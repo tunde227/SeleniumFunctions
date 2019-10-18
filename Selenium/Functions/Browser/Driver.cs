@@ -1,42 +1,54 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using Selenium.Extensions;
-using static Selenium.Functions.Browser.Browsers;
+using static Selenium.Functions.Browser.Browser;
 
 namespace Selenium.Functions.Browser
 {
-    public static class GetDriver
+    public class Driver
     {
-        public static Driver DriverBuilder() => new Driver();
+        public string Version { get; protected internal set; } = "";
+        public string Location { get; protected internal set; } = DefaultLocation();
+        public string Url { get; protected internal set; } = "";
+        public Browser Browser { get; protected internal set; }
 
-
-        public class Driver
+        private static string DefaultLocation()
         {
-            private string Version { get; set; } = "";
-            private string Location { get; set; } = "";
-            private string Url { get; set; } = "";
-            private Browsers Browser { get; set; }
+            DirectoryInfo solutionRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent;
 
-            public Driver WithBrowser(Browsers browser)
+            DirectoryInfo driversDirectory =
+                (solutionRoot?.GetDirectories() ?? throw new InvalidOperationException()).FirstOrDefault(dir =>
+                    dir.Name.EqualsIgnoreCase("Drivers")) ??
+                Directory.CreateDirectory($"{solutionRoot.FullName}/Drivers");
+
+            return driversDirectory.FullName;
+        }
+
+        public class DriverBuilder
+        {
+            private readonly Driver _driver = new Driver();
+
+            public DriverBuilder WithBrowser(Browser browser)
             {
-                Browser = browser;
+                _driver.Browser = browser;
                 return this;
             }
 
-            public Driver WithDriverVersion(string driverVersion)
+            public DriverBuilder WithDriverVersion(string driverVersion)
             {
-                Version = driverVersion.RequireNonNullOrEmpty();
+                _driver.Version = driverVersion.RequireNonNullOrEmpty();
                 return this;
             }
 
-            public Driver WithDownloadLocation(string downloadLocation)
+            public DriverBuilder WithDownloadLocation(string downloadLocation)
             {
                 if (Directory.Exists(downloadLocation))
                 {
-                    Location = downloadLocation.RequireNonNullOrEmpty();
+                    _driver.Location = downloadLocation.RequireNonNullOrEmpty();
                 }
                 else
                     throw new FileNotFoundException($"{downloadLocation} " +
@@ -47,21 +59,23 @@ namespace Selenium.Functions.Browser
 
             private string GetUrl()
             {
-                return Browser switch
+                return _driver.Browser switch
                 {
                     CHROME => ("https://chromedriver.storage.googleapis.com/" +
-                               $"index.html?path={Version}/{DriverZip()}"),
+                               $"index.html?path={_driver.Version}/{DriverZip()}"),
                     FIREFOX => ("https://github.com/mozilla/geckodriver/" +
-                                $"releases/download/v{Version}/{DriverZip()}"),
-                    EDGE => $"https://msedgewebdriverstorage.z22.web.core.windows.net/?prefix={Version}/{DriverZip()}",
+                                $"releases/download/v{_driver.Version}/{DriverZip()}"),
+                    EDGE => "https://msedgewebdriverstorage.z22.web.core.windows.net/" +
+                            $"?prefix={_driver.Version}/{DriverZip()}",
                     SAFARI => null,
-                    _ => throw new Exception($"{Browser.ToString()} is not " + "accounted for.  Unable to build URL.")
+                    _ => throw new Exception($"{_driver.Browser.ToString()} is not " +
+                                             "accounted for.  Unable to build URL.")
                 };
             }
 
             private string DriverZip()
             {
-                return Browser switch
+                return _driver.Browser switch
                 {
                     CHROME => ChromeDriverZip(),
                     FIREFOX => FirefoxDriverZip(),
@@ -99,30 +113,30 @@ namespace Selenium.Functions.Browser
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                     && Environment.Is64BitOperatingSystem)
                 {
-                    return $"geckodriver-v{Version}-win64.zip";
+                    return $"geckodriver-v{_driver.Version}-win64.zip";
                 }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                     && !Environment.Is64BitOperatingSystem)
                 {
-                    return $"geckodriver-v{Version}-win32.zip";
+                    return $"geckodriver-v{_driver.Version}-win32.zip";
                 }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    return $"geckodriver-v{Version}-macos.tar.gz";
+                    return $"geckodriver-v{_driver.Version}-macos.tar.gz";
                 }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
                     && Environment.Is64BitOperatingSystem)
                 {
-                    return $"geckodriver-v{Version}-linux64.tar.gz";
+                    return $"geckodriver-v{_driver.Version}-linux64.tar.gz";
                 }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
                     && !Environment.Is64BitOperatingSystem)
                 {
-                    return $"geckodriver-v{Version}-linux32.tar.gz";
+                    return $"geckodriver-v{_driver.Version}-linux32.tar.gz";
                 }
 
                 throw new Exception($"{RuntimeInformation.OSDescription} " +
@@ -152,15 +166,15 @@ namespace Selenium.Functions.Browser
 
             public Driver Build()
             {
-                Url = GetUrl();
+                _driver.Url = GetUrl();
                 using (var client = new WebClient())
                 {
-                    client.DownloadFile(Url, Location);
+                    client.DownloadFile(_driver.Url, _driver.Location);
                 }
 
-                ZipFile.ExtractToDirectory(Location, Path.Combine(Location,
-                    $"\\{Browser.ToString().ToLower()}_{Version}"));
-                return this;
+                ZipFile.ExtractToDirectory(_driver.Location, Path.Combine(_driver.Location,
+                    $"\\{_driver.Browser.ToString().ToLower()}_{_driver.Version}"));
+                return _driver;
             }
         }
     }

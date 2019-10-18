@@ -1,31 +1,27 @@
 ﻿using System;
-using System.Linq;
+using Selenium.Utility;
 
 namespace Selenium.Extensions
 {
-    public static class Objects
+    public static partial class Objects
     {
         public static T RequireNonNull<T>(string message, T t) where T : class
         {
-            if (Equals(null, t))
-            {
-                throw new Exception(message);
-            }
-
-            return t;
+            return t ?? throw new Exception(message);
         }
 
         public static T RequireNonNull<T>(T t) where T : class
         {
-            return RequireNonNull("Object is null", t);
+            return RequireNonNull($"{typeof(T).Name} is null", t);
         }
 
-        public static bool IsNull<T>(T t)
+        public static bool IsNull<T>(T t) => Equals(null, t);
+
+        public static void RequireNonNull<T>(params T[] t) where T : class
         {
-            return Equals(null, t);
+            Arrays.AsList(t).ForEach(item => RequireNonNull($"{item.GetType().Name}: {nameof(item)} is null", item));
         }
 
-        public static void RequireNonNull<T>(params T[] t) => t.Select(e => Equals(null, t))
-            .Any(e => throw new ArgumentNullException(e.GetType().Name, "value is null!"));
+        public new static string ToString(this object source) => ObjectDumper.Write(source);
     }
 }

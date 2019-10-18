@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 
@@ -7,16 +6,14 @@ namespace Selenium.Functions.Browser
 {
     public abstract class BrowserActions
     {
-        private Browsers _browsers;
+        private Browser _browser;
 
-        public BrowserActions(Browsers browsers)
+        public BrowserActions(Browser browser)
         {
-            _browsers = browsers;
+            _browser = browser;
         }
 
-        public string DriverLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         public abstract DriverOptions DriverOptions();
-
 
         public void Open(string url)
         {
