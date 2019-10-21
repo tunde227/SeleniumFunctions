@@ -17,32 +17,17 @@ namespace Backend.Api.Base
 
         protected internal TSource Deserialize(IRestResponse response)
         {
-            string contentType = response.ContentType.ToLower(CultureInfo.CurrentCulture);
-            string body = response.Content;
-
-            switch (contentType)
+            return response?.ContentType.ToLower(CultureInfo.CurrentCulture) switch
             {
-                case "xml":
-                    return ParseResponse(NodeUtils.CreateXmlDocumentFromText(body));
-                case "json":
-                    return ParseResponse(JObject.Parse(body));
-                case "text/plain":
-                    return ParseResponse(body);
-                case "text/html":
-                    return ParseResponse(NodeUtils.CreateHtmlDocumentFromText(body));
-                default:
-                    throw new NotImplementedException($"{CallerClass} response type could not be determined.");
-            }
+                "xml"        => ParseResponse(NodeUtils.CreateXmlDocumentFromText(response.Content)),
+                "json"       => ParseResponse(JObject.Parse(response.Content)),
+                "text/plain" => ParseResponse(response.Content),
+                "text/html"  => ParseResponse(NodeUtils.CreateHtmlDocumentFromText(response.Content)),
+                _ => throw new NotImplementedException(
+                    $"{CallerClass} response type could not be determined.")
+            };
         }
 
-        public T GetResponse<T>(object response)
-        {
-            if (response is XmlDocument || response is JObject || response is string || response is HtmlDocument)
-            {
-                return (T) response;
-            }
-
-            throw new NotImplementedException($"{CallerClass} -> Return type of {typeof(T).Name} is not implemented.");
-        }
+        public T Deserialize<T>(T response) => response;
     }
 }
