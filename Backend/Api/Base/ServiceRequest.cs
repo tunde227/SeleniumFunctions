@@ -40,8 +40,7 @@ namespace Backend.Api.Base
         public virtual TSource CompleteServiceRequest([CallerFilePath] string sourceFilePath = "")
         {
             CallerClass = FormatCallerClass(sourceFilePath);
-            RestRequest request = GetRequest();
-            IRestResponse<TSource> response = new RestClient().Execute<TSource>(request);
+            IRestResponse<TSource> response = new RestClient().Execute<TSource>(GetRequest());
             PrintResponse(response);
             return response.Data;
         }

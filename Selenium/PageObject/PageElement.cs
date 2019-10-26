@@ -7,7 +7,7 @@ using Selenium.Utility;
 
 namespace Selenium.PageObject
 {
-    public partial class PageElement : SeleniumUtility, IEquatable<PageElement>
+    public sealed partial class PageElement : SeleniumUtility, IEquatable<PageElement>
     {
         public string Name { get; set; } = "";
         public By Locator { get; set; }
@@ -64,7 +64,7 @@ namespace Selenium.PageObject
         {
             unchecked
             {
-                var hashCode = (Name != null ? StringComparer.CurrentCultureIgnoreCase.GetHashCode(Name) : 0);
+                int hashCode = (Name != null ? StringComparer.CurrentCultureIgnoreCase.GetHashCode(Name) : 0);
                 hashCode = (hashCode * 397) ^ (Locator != null ? Locator.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (int) ElementType;
                 hashCode = (hashCode * 397) ^ (Frame != null ? Frame.GetHashCode() : 0);

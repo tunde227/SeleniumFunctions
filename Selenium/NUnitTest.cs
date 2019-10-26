@@ -21,7 +21,7 @@ namespace Selenium
                 Directory.CreateDirectory($"{solutionBase.FullName}/Drivers");
 
             Console.WriteLine("*******************");
-            Console.WriteLine(solutionBase?.GetDirectories().ToString());
+            Console.WriteLine(string.Join(",",solutionBase.GetDirectories().ToList()));
         }
     }
 }

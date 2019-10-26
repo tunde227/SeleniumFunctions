@@ -3,7 +3,7 @@ using Selenium.Functions.Actions;
 
 namespace Selenium.PageObject
 {
-    public partial class PageElement
+    public sealed partial class PageElement
     {
         public void Click(TimeSpan? maxWaitTime = null) => Click(this, maxWaitTime);
         public void DoubleClick(TimeSpan? maxWaitTime = null) => DoubleClick(this, maxWaitTime);
