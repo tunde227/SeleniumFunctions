@@ -13,9 +13,15 @@ namespace Core.Utility
 
         private StringBuilder stringBuilder;
 
-        private ObjectDumper(int depth) => this.depth = depth;
+        private ObjectDumper(int depth)
+        {
+            this.depth = depth;
+        }
 
-        public static string Write(object element) => Write(element, 0);
+        public static string Write(object element)
+        {
+            return Write(element, 0);
+        }
 
 
         public static string Write(object element, int depth)
@@ -62,8 +68,7 @@ namespace Core.Utility
             {
                 if (element is IEnumerable enumerableElement)
                 {
-                    foreach (object item in enumerableElement)
-                    {
+                    foreach (var item in enumerableElement)
                         if (item is IEnumerable && !(item is string))
                         {
                             WriteIndent();
@@ -81,7 +86,6 @@ namespace Core.Utility
                         {
                             WriteObject(prefix, item);
                         }
-                    }
                 }
                 else
                 {
@@ -90,7 +94,7 @@ namespace Core.Utility
                     WriteIndent();
                     Write(prefix);
                     var propWritten = false;
-                    foreach (MemberInfo memberInfo in members)
+                    foreach (var memberInfo in members)
                     {
                         var fieldInfo = memberInfo as FieldInfo;
                         var propertyInfo = memberInfo as PropertyInfo;
@@ -103,7 +107,7 @@ namespace Core.Utility
 
                             Write(memberInfo.Name);
                             Write("=");
-                            Type type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
+                            var type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
                             if (type.IsValueType || type == typeof(string))
                             {
                                 WriteValue(fieldInfo != null
@@ -122,17 +126,16 @@ namespace Core.Utility
 
                     if (propWritten) WriteLine();
                     if (level < depth)
-                    {
-                        foreach (MemberInfo memberInfo in members)
+                        foreach (var memberInfo in members)
                         {
                             var fieldInfo = memberInfo as FieldInfo;
                             var propertyInfo = memberInfo as PropertyInfo;
                             if (fieldInfo != null || propertyInfo != null)
                             {
-                                Type type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
+                                var type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
                                 if (!(type.IsValueType || type == typeof(string)))
                                 {
-                                    object value = fieldInfo != null
+                                    var value = fieldInfo != null
                                         ? fieldInfo.GetValue(element)
                                         : propertyInfo.GetValue(element, null);
                                     if (value != null)
@@ -144,7 +147,6 @@ namespace Core.Utility
                                 }
                             }
                         }
-                    }
                 }
             }
         }

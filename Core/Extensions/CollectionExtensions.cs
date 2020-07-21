@@ -10,13 +10,13 @@ namespace Core.Extensions
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> predicate)
         {
-            foreach (T item in source ?? throw new ArgumentNullException(nameof(source)))
-            {
-                predicate?.Invoke(item);
-            }
+            foreach (var item in source ?? throw new ArgumentNullException(nameof(source))) predicate?.Invoke(item);
         }
 
         public static void ForFirst<T>(this IEnumerable<T> source, Action<T> predicate) =>
             predicate?.Invoke((source as T[] ?? source.ToArray()).First());
+
+        public static void ForLast<T>(this IEnumerable<T> source, Action<T> predicate) =>
+            predicate?.Invoke((source as T[] ?? source.ToArray()).Last());
     }
 }

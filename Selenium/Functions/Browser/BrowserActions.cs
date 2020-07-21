@@ -24,19 +24,30 @@ namespace Selenium.Functions.Browser
 
         public void SwitchToTab(Tab tab)
         {
-            bool isClosed = SeleniumDriver.Driver.WindowHandles.All(handle => !handle.Equals(tab.WindowHandle));
-            if (isClosed)
-            {
-                tab.Open();
-            }
+            var isClosed = SeleniumDriver.Driver.WindowHandles.All(handle => !handle.Equals(tab.WindowHandle));
+            if (isClosed) tab.Open();
 
             SeleniumDriver.Driver.SwitchTo().Window(tab.WindowHandle);
         }
 
-        public void MaximizeWindow() => SeleniumDriver.Driver.Manage().Window.Maximize();
+        public void MaximizeWindow()
+        {
+            SeleniumDriver.Driver.Manage().Window.Maximize();
+        }
 
-        public void MinimizeWindow() => SeleniumDriver.Driver.Manage().Window.Minimize();
-        public static void Close() => SeleniumDriver.Driver.Close();
-        public static void Quit() => SeleniumDriver.Driver.Quit();
+        public void MinimizeWindow()
+        {
+            SeleniumDriver.Driver.Manage().Window.Minimize();
+        }
+
+        public static void Close()
+        {
+            SeleniumDriver.Driver.Close();
+        }
+
+        public static void Quit()
+        {
+            SeleniumDriver.Driver.Quit();
+        }
     }
 }

@@ -10,9 +10,9 @@ namespace Backend.Api.Base
             CallerClass = FormatCallerClass(sourceFilePath);
             CallingAssembly = Assembly.GetCallingAssembly();
 
-            RestRequest request = GetRequest();
+            var request = GetRequest();
             AddBody(request);
-            IRestResponse response = new RestClient().Execute(request);
+            var response = new RestClient().Execute(request);
             return Deserialize(response);
         }
     }

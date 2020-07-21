@@ -6,16 +6,19 @@ namespace Backend.Api.Base
     {
         public abstract string GetPayload();
 
-        protected override string GeneratePayload() => GetPayload();
+        protected override string GeneratePayload()
+        {
+            return GetPayload();
+        }
 
         public override TSource CompleteServiceRequest(string sourceFilePath = "")
         {
             CallerClass = FormatCallerClass(sourceFilePath);
 
-            RestRequest request = GetRequest();
+            var request = GetRequest();
             AddBody(request);
 
-            IRestResponse<TSource> response = new RestClient().Execute<TSource>(request);
+            var response = new RestClient().Execute<TSource>(request);
             PrintResponse(response);
             return response.Data;
         }

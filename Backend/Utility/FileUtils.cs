@@ -10,10 +10,10 @@ namespace Backend.Utility
         {
             try
             {
-                using (Stream stream = assembly.GetManifestResourceStream(filename))
+                using (var stream = assembly.GetManifestResourceStream(filename))
                 {
                     using (var reader = new StreamReader(stream ?? throw new InvalidOperationException(
-                                                             $"Unable To find file:" +
+                                                             "Unable To find file:" +
                                                              $" {filename} in {assembly.GetName().Name} Assembly.")))
                     {
                         return reader.ReadToEnd().Trim();

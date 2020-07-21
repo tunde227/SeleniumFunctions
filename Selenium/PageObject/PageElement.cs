@@ -22,22 +22,22 @@ namespace Selenium.PageObject
                    Equals(Locator, other.Locator) && ElementType == other.ElementType && Equals(Frame, other.Frame);
         }
 
-        public void GoToFrame() => Frame?.Invoke();
+        public void GoToFrame()
+        {
+            Frame?.Invoke();
+        }
 
         public List<T> ToList<T>()
         {
             if (typeof(T) == typeof(IWebElement))
-            {
                 return SeleniumDriver.Driver.FindElements(Locator).ToList() as List<T>;
-            }
 
             if (typeof(T) != typeof(PageElement))
                 throw new NotSupportedException($"No Implementation for converting {typeof(T).Name} to List.");
 
-            List<PageElement> pageElements = new List<PageElement>();
+            var pageElements = new List<PageElement>();
 
             for (var index = 1; index <= SeleniumDriver.Driver.FindElements(Locator).Count; index++)
-            {
                 pageElements.Add(new PageElement
                 {
                     Locator = ToXPath(Locator, index),
@@ -45,12 +45,14 @@ namespace Selenium.PageObject
                     Frame = Frame,
                     ElementType = ElementType
                 });
-            }
 
             return pageElements as List<T>;
         }
 
-        public IWebElement ToWebElement() => SeleniumDriver.Driver.FindElement(Locator);
+        public IWebElement ToWebElement()
+        {
+            return SeleniumDriver.Driver.FindElement(Locator);
+        }
 
         public override bool Equals(object obj)
         {
@@ -64,7 +66,7 @@ namespace Selenium.PageObject
         {
             unchecked
             {
-                int hashCode = (Name != null ? StringComparer.CurrentCultureIgnoreCase.GetHashCode(Name) : 0);
+                var hashCode = Name != null ? StringComparer.CurrentCultureIgnoreCase.GetHashCode(Name) : 0;
                 hashCode = (hashCode * 397) ^ (Locator != null ? Locator.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (int) ElementType;
                 hashCode = (hashCode * 397) ^ (Frame != null ? Frame.GetHashCode() : 0);
@@ -72,11 +74,20 @@ namespace Selenium.PageObject
             }
         }
 
-        public static bool operator ==(PageElement left, PageElement right) => Equals(left, right);
+        public static bool operator ==(PageElement left, PageElement right)
+        {
+            return Equals(left, right);
+        }
 
-        public static bool operator !=(PageElement left, PageElement right) => !Equals(left, right);
+        public static bool operator !=(PageElement left, PageElement right)
+        {
+            return !Equals(left, right);
+        }
 
-        public override string ToString() =>
-            $"{nameof(Name)}: {Name}, {nameof(Locator)}: {Locator}, {nameof(ElementType)}: {ElementType}, {nameof(Frame)}: {Frame}";
+        public override string ToString()
+        {
+            return
+                $"{nameof(Name)}: {Name}, {nameof(Locator)}: {Locator}, {nameof(ElementType)}: {ElementType}, {nameof(Frame)}: {Frame}";
+        }
     }
 }

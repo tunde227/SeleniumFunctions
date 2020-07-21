@@ -18,9 +18,9 @@ namespace Selenium.Functions.Browser
 
         private static string DefaultLocation()
         {
-            DirectoryInfo solutionRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent;
+            var solutionRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent;
 
-            DirectoryInfo driversDirectory =
+            var driversDirectory =
                 (solutionRoot?.GetDirectories() ?? throw new InvalidOperationException()).FirstOrDefault(dir =>
                     dir.Name.EqualsIgnoreCase("Drivers")) ??
                 Directory.CreateDirectory($"{solutionRoot.FullName}/Drivers");
@@ -47,9 +47,7 @@ namespace Selenium.Functions.Browser
             public DriverBuilder WithDownloadLocation(string downloadLocation)
             {
                 if (Directory.Exists(downloadLocation))
-                {
                     _driver.Location = downloadLocation.RequireNonNullOrEmpty();
-                }
                 else
                     throw new FileNotFoundException($"{downloadLocation} " +
                                                     "does not exist.");
@@ -89,20 +87,13 @@ namespace Selenium.Functions.Browser
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                     && Environment.Is64BitOperatingSystem)
-                {
                     return "edgedriver_win64.zip";
-                }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                     && !Environment.Is64BitOperatingSystem)
-                {
                     return "edgedriver_win32.zip";
-                }
 
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    return "edgedriver_mac64.zip";
-                }
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) return "edgedriver_mac64.zip";
 
                 throw new Exception($"{RuntimeInformation.OSDescription} " +
                                     "Operating System is not accounted for.");
@@ -112,32 +103,22 @@ namespace Selenium.Functions.Browser
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                     && Environment.Is64BitOperatingSystem)
-                {
                     return $"geckodriver-v{_driver.Version}-win64.zip";
-                }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                     && !Environment.Is64BitOperatingSystem)
-                {
                     return $"geckodriver-v{_driver.Version}-win32.zip";
-                }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
                     return $"geckodriver-v{_driver.Version}-macos.tar.gz";
-                }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
                     && Environment.Is64BitOperatingSystem)
-                {
                     return $"geckodriver-v{_driver.Version}-linux64.tar.gz";
-                }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
                     && !Environment.Is64BitOperatingSystem)
-                {
                     return $"geckodriver-v{_driver.Version}-linux32.tar.gz";
-                }
 
                 throw new Exception($"{RuntimeInformation.OSDescription} " +
                                     "Operating System is not accounted for.");
@@ -145,20 +126,11 @@ namespace Selenium.Functions.Browser
 
             private static string ChromeDriverZip()
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    return "chromedriver_win32.zip";
-                }
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return "chromedriver_win32.zip";
 
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    return "chromedriver_mac64.zip";
-                }
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) return "chromedriver_mac64.zip";
 
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    return "chromedriver_linux64.zip";
-                }
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) return "chromedriver_linux64.zip";
 
                 throw new Exception($"{RuntimeInformation.OSDescription} " +
                                     "Operating System is not accounted for.");

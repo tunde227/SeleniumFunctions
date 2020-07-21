@@ -44,8 +44,8 @@ namespace Selenium.Functions.Actions
 
         private void By(PageElement element)
         {
-            string type = element.Locator.ToString().SubstringBefore(": ").Strip("By.");
-            string locator = element.Locator.ToString().SubstringAfter(": ");
+            var type = element.Locator.ToString().SubstringBefore(": ").Strip("By.");
+            var locator = element.Locator.ToString().SubstringAfter(": ");
 
             switch (type.ToLowerInvariant())
             {
@@ -85,18 +85,21 @@ namespace Selenium.Functions.Actions
             HasIndex = hasIndex;
         }
 
-        private string AddIndex(int index = 0) => HasIndex ? $"[{index}]" : string.Empty;
+        private string AddIndex(int index = 0)
+        {
+            return HasIndex ? $"[{index}]" : string.Empty;
+        }
 
         public void Focus(int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.focus()";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.focus()";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             SeleniumDriver.Driver.ExecuteJavaScript(script);
         }
 
         public void Blur(int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.blur()";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.blur()";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             SeleniumDriver.Driver.ExecuteJavaScript(script);
         }
@@ -106,7 +109,7 @@ namespace Selenium.Functions.Actions
             Clear();
             Focus(index, maxWaitTime);
             Blur(index, maxWaitTime);
-            string script = ElementType.INPUT_ATTRIBUTE_VALUE.Equals(Element.ElementType)
+            var script = ElementType.INPUT_ATTRIBUTE_VALUE.Equals(Element.ElementType)
                 ? $"{WaitForElementToDisplay(index, maxWaitTime)}.setAttribute(value, {input})"
                 : $"{WaitForElementToDisplay(index, maxWaitTime)}.innerHTML = {input}";
 
@@ -114,67 +117,70 @@ namespace Selenium.Functions.Actions
             SeleniumDriver.Driver.ExecuteJavaScript(script);
         }
 
-        public void Clear(int index = 0) => Type("");
+        public void Clear(int index = 0)
+        {
+            Type("");
+        }
 
         public void Click(int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.click()";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.click()";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             SeleniumDriver.Driver.ExecuteJavaScript(script);
         }
 
         public string GetAttribute(string attribute, int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.getAttribute({attribute})";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.getAttribute({attribute})";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             return SeleniumDriver.Driver.ExecuteJavaScript<string>(script);
         }
 
         public string GetAttributeNode(string attribute, int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.getAttributeNode({attribute}).value";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.getAttributeNode({attribute}).value";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             return SeleniumDriver.Driver.ExecuteJavaScript<string>(script);
         }
 
         public void RemoveAttribute(string attribute, int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.removeAttribute({attribute})";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.removeAttribute({attribute})";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             SeleniumDriver.Driver.ExecuteJavaScript(script);
         }
 
         public bool HasAttribute(string attribute, int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.hasAttribute({attribute})";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.hasAttribute({attribute})";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             return SeleniumDriver.Driver.ExecuteJavaScript<bool>(script);
         }
 
         public bool HasAttributes(int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.hasAttributes()";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.hasAttributes()";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             return SeleniumDriver.Driver.ExecuteJavaScript<bool>(script);
         }
 
         public bool ContainsElement(string element, int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.contains({element})";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.contains({element})";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             return SeleniumDriver.Driver.ExecuteJavaScript<bool>(script);
         }
 
         public void Normalize(int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.normalize()";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.normalize()";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             SeleniumDriver.Driver.ExecuteJavaScript(script);
         }
 
         public string TextContent(int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.textContent";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.textContent";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             return SeleniumDriver.Driver.ExecuteJavaScript<string>(script);
         }
@@ -183,39 +189,37 @@ namespace Selenium.Functions.Actions
         {
             if (Element.ElementType == ElementType.INPUT_ATTRIBUTE_VALUE ||
                 Element.ElementType == ElementType.ATTRIBUTE_VALUE)
-            {
                 return GetAttribute("value", index);
-            }
 
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.innerHTML";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.innerHTML";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             return SeleniumDriver.Driver.ExecuteJavaScript<string>(script);
         }
 
         public void SetContentEditable(bool isEditable = true, int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.contentEditable = {isEditable}";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.contentEditable = {isEditable}";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             SeleniumDriver.Driver.ExecuteJavaScript(script);
         }
 
         public bool IsContentEditable(int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.contentEditable";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.contentEditable";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             return SeleniumDriver.Driver.ExecuteJavaScript<bool>(script);
         }
 
         public void ScrollIntoView(bool top, int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.scrollIntoView({top})";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.scrollIntoView({top})";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             SeleniumDriver.Driver.ExecuteJavaScript(script);
         }
 
         public void ScrollIntoView(int index = 0, TimeSpan? maxWaitTime = null)
         {
-            string script = $"{WaitForElementToDisplay(index, maxWaitTime)}.scrollIntoView()";
+            var script = $"{WaitForElementToDisplay(index, maxWaitTime)}.scrollIntoView()";
             Logger.Debug($"{MethodBase.GetCurrentMethod().Name} -> Script: {script}");
             SeleniumDriver.Driver.ExecuteJavaScript(script);
         }
@@ -227,16 +231,17 @@ namespace Selenium.Functions.Actions
             return SeleniumDriver.Driver.ExecuteJavaScript<string>(script);
         }
 
-        public bool IsReadyState(string expectedState) => ReadyState().EqualsIgnoreCase(expectedState);
+        public bool IsReadyState(string expectedState)
+        {
+            return ReadyState().EqualsIgnoreCase(expectedState);
+        }
 
         private string WaitForElementToDisplay(int index, TimeSpan? maxWaitTime = null)
         {
-            string locator = $"{this}{AddIndex(index)}";
+            var locator = $"{this}{AddIndex(index)}";
             if (SeleniumUtility.WebDriverWait(driver => driver.ExecuteJavaScript<string>(locator).IsBlank(),
                 maxWaitTime ?? Default5Seconds))
-            {
                 throw new NotFoundException($"Did not find element within {maxWaitTime ?? Default5Seconds}: {locator}");
-            }
 
             return locator;
         }
@@ -245,7 +250,7 @@ namespace Selenium.Functions.Actions
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((SeleniumJavascript) obj);
         }
 
@@ -253,7 +258,7 @@ namespace Selenium.Functions.Actions
         {
             unchecked
             {
-                int hashCode = (JavaScript != null ? JavaScript.GetHashCode() : 0);
+                var hashCode = JavaScript != null ? JavaScript.GetHashCode() : 0;
                 hashCode = (hashCode * 397) ^ (Locator != null ? Locator.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ HasIndex.GetHashCode();
                 hashCode = (hashCode * 397) ^ (Element != null ? Element.GetHashCode() : 0);
@@ -261,9 +266,19 @@ namespace Selenium.Functions.Actions
             }
         }
 
-        public static bool operator ==(SeleniumJavascript left, SeleniumJavascript right) => Equals(left, right);
+        public static bool operator ==(SeleniumJavascript left, SeleniumJavascript right)
+        {
+            return Equals(left, right);
+        }
 
-        public static bool operator !=(SeleniumJavascript left, SeleniumJavascript right) => !Equals(left, right);
-        public override string ToString() => JavaScript.Replace("@", Locator);
+        public static bool operator !=(SeleniumJavascript left, SeleniumJavascript right)
+        {
+            return !Equals(left, right);
+        }
+
+        public override string ToString()
+        {
+            return JavaScript.Replace("@", Locator);
+        }
     }
 }

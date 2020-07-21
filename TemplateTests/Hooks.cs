@@ -1,10 +1,8 @@
-using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
-using log4net;
-using log4net.Appender;
-using log4net.Config;
-using log4net.Core;
-using log4net.Layout;
+using Core.Extensions;
+using Core.Utility;
 using NUnit.Framework;
 
 namespace TemplateTests
@@ -12,55 +10,15 @@ namespace TemplateTests
     [SetUpFixture]
     public class Hooks
     {
+        [Key]
+        public string Key { get; set; }
         [OneTimeSetUp]
         public void Before()
         {
-            SetUp(Assembly.GetExecutingAssembly(), @"/Users/brian/Desktop/Logs/Automation");
+            Arrays.AsList("").TrueForAll(null);
+            Arrays.AsList("").TrueForAll(null);
+            Log.SetUp(Assembly.GetExecutingAssembly(), @"/Users/brian/Desktop/Logs");
         }
-
-        [OneTimeTearDown]
-        public void After()
-        {
-        }
-
-        private static void SetUp(Assembly assembly, string fileName)
-        {
-            var patternLayout = new PatternLayout
-            {
-                ConversionPattern = "%date{yyyy-MM-dd hh:mm:ss tt} [%thread] %-5level %logger - %message%newline"
-            };
-            patternLayout.ActivateOptions();
-
-            var consoleAppender = new ConsoleAppender()
-            {
-                Threshold = Level.All,
-                Name = "ConsoleAppender",
-                Layout = patternLayout
-            };
-            consoleAppender.ActivateOptions();
-
-            var debugAppender = new DebugAppender()
-            {
-                Threshold = Level.All,
-                Name = "DebugAppender",
-                Layout = patternLayout
-            };
-            debugAppender.ActivateOptions();
-
-            var roller = new RollingFileAppender
-            {
-                AppendToFile = true,
-                File = $"{fileName}",
-                Layout = patternLayout,
-                DatePattern = ".yyyy-MM-dd.lo\\g",
-                MaximumFileSize = "10MB",
-                RollingStyle = RollingFileAppender.RollingMode.Date,
-                StaticLogFileName = false
-            };
-            roller.ActivateOptions();
-
-            IAppender[] appenders = {consoleAppender, debugAppender, roller};
-            BasicConfigurator.Configure(LoggerManager.GetRepository(assembly), appenders);
-        }
+        
     }
 }

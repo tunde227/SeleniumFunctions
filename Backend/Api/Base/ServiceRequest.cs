@@ -16,11 +16,15 @@ namespace Backend.Api.Base
         public abstract string Url { get; }
         protected abstract Method GetHtmlMethod();
         public abstract List<(string, string)> GetHeaders();
-        protected virtual string GeneratePayload() => string.Empty;
+
+        protected virtual string GeneratePayload()
+        {
+            return string.Empty;
+        }
 
         protected internal string PrepareUrl()
         {
-            string url = Url;
+            var url = Url;
             Logger.Debug($"{CallerClass} -> URL: {url}");
             return string.IsNullOrEmpty(url)
                 ? throw new NotSupportedException($"Please provide a URL for {CallerClass} API.")
@@ -29,18 +33,20 @@ namespace Backend.Api.Base
 
         protected internal RestRequest GetRequest()
         {
-            RestRequest request = new RestRequest(PrepareUrl(), GetHtmlMethod());
+            var request = new RestRequest(PrepareUrl(), GetHtmlMethod());
             GetHeaders().ForEach(header => request.AddHeader(header.Item1, header.Item2));
             return request;
         }
 
-        protected internal void AddBody(RestRequest request) =>
+        protected internal void AddBody(RestRequest request)
+        {
             request.AddParameter("", GeneratePayload(), ParameterType.RequestBody);
+        }
 
         public virtual TSource CompleteServiceRequest([CallerFilePath] string sourceFilePath = "")
         {
             CallerClass = FormatCallerClass(sourceFilePath);
-            IRestResponse<TSource> response = new RestClient().Execute<TSource>(GetRequest());
+            var response = new RestClient().Execute<TSource>(GetRequest());
             PrintResponse(response);
             return response.Data;
         }

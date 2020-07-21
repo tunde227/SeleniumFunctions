@@ -5,6 +5,9 @@ namespace Backend.Api.HTTP
 {
     public abstract class GetObject<TSource> : ServiceRequest<TSource> where TSource : new()
     {
-        protected override Method GetHtmlMethod() => Method.GET;
+        protected override Method GetHtmlMethod()
+        {
+            return Method.GET;
+        }
     }
 }

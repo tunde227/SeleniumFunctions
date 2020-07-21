@@ -64,7 +64,7 @@ namespace Selenium.Functions.Browser
         {
             unchecked
             {
-                var hashCode = (Name != null ? StringComparer.CurrentCultureIgnoreCase.GetHashCode(Name) : 0);
+                var hashCode = Name != null ? StringComparer.CurrentCultureIgnoreCase.GetHashCode(Name) : 0;
                 hashCode = (hashCode * 397) ^ (WindowHandle != null
                                ? StringComparer.CurrentCultureIgnoreCase.GetHashCode(WindowHandle)
                                : 0);

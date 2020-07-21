@@ -21,8 +21,8 @@ namespace Selenium.Utility
 
         protected static By ToXPath(By locator, int index = 1)
         {
-            string locatorType = locator.ToString().SubstringBefore(": ").Strip("By.");
-            string element = locator.ToString().SubstringAfter(": ");
+            var locatorType = locator.ToString().SubstringBefore(": ").Strip("By.");
+            var element = locator.ToString().SubstringAfter(": ");
 
             return locatorType switch
             {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using OpenQA.Selenium;
 using Selenium.PageObject;
 using Selenium.Utility;
 using SeleniumExtras.WaitHelpers;
@@ -24,19 +23,17 @@ namespace Selenium.Functions.Actions
         protected static void ClickMultipleElements(PageElement pageElement)
         {
             pageElement.GoToFrame();
-            foreach (IWebElement element in SeleniumDriver.Driver.FindElements(pageElement.Locator))
-            {
+            foreach (var element in SeleniumDriver.Driver.FindElements(pageElement.Locator))
                 SeleniumUtility.WebDriverWait(ExpectedConditions.ElementToBeClickable(element), Default5Seconds)
                     .Click();
-            }
         }
 
         protected static void ClickAndHold(PageElement pageElement, TimeSpan? maxWaitTime = null)
         {
             pageElement.GoToFrame();
-            OpenQA.Selenium.Interactions.Actions actions =
+            var actions =
                 new OpenQA.Selenium.Interactions.Actions(SeleniumDriver.Driver);
-            IWebElement onElement = SeleniumDriver.Driver.FindElement(pageElement.Locator);
+            var onElement = SeleniumDriver.Driver.FindElement(pageElement.Locator);
 
             actions.ClickAndHold(onElement).Build().Perform();
             Thread.Sleep(maxWaitTime ?? Default5Seconds);
@@ -56,9 +53,9 @@ namespace Selenium.Functions.Actions
 
         protected static void SendKeys(PageElement pageElement, params string[] keys)
         {
-            OpenQA.Selenium.Interactions.Actions actions =
+            var actions =
                 new OpenQA.Selenium.Interactions.Actions(SeleniumDriver.Driver);
-            foreach (string key in keys)
+            foreach (var key in keys)
             {
                 pageElement.GoToFrame();
                 actions.SendKeys(SeleniumDriver.Driver.FindElement(pageElement.Locator), key).Build().Perform();
@@ -69,7 +66,7 @@ namespace Selenium.Functions.Actions
         protected static void RightClick(PageElement pageElement, TimeSpan? maxWaitTime = null)
         {
             pageElement.GoToFrame();
-            OpenQA.Selenium.Interactions.Actions actions =
+            var actions =
                 new OpenQA.Selenium.Interactions.Actions(SeleniumDriver.Driver);
             actions.ContextClick(SeleniumUtility.WebDriverWait(ExpectedConditions.ElementIsVisible(pageElement.Locator),
                 maxWaitTime ?? Default5Seconds)).Build().Perform();

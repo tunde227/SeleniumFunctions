@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
 using HtmlAgilityPack;
@@ -37,7 +35,7 @@ namespace Backend.Utility
 
         public static string ToString(XmlDocument document, bool withDeclaration = false)
         {
-            XmlDeclaration declaration = document.ChildNodes.OfType<XmlDeclaration>().FirstOrDefault();
+            var declaration = document.ChildNodes.OfType<XmlDeclaration>().FirstOrDefault();
             return withDeclaration ? declaration?.Value + document.OuterXml : document.OuterXml;
         }
 
@@ -57,15 +55,17 @@ namespace Backend.Utility
         public static string Serialize(Type type, bool removeNamespaces = false)
         {
             using var stream = new StringWriter();
-            using XmlWriter writer = XmlWriter.Create(stream, removeNamespaces
-                ? new XmlWriterSettings() {OmitXmlDeclaration = true}
+            using var writer = XmlWriter.Create(stream, removeNamespaces
+                ? new XmlWriterSettings {OmitXmlDeclaration = true}
                 : null);
             new XmlSerializer(type).Serialize(writer, Activator.CreateInstance(type),
                 removeNamespaces ? new XmlSerializerNamespaces(new[] {XmlQualifiedName.Empty}) : null);
             return stream.ToString().Replace(" />", "/>");
         }
 
-        public static string Serialize(object @object, bool removeNamespaces = false) =>
-            Serialize(@object.GetType(), removeNamespaces);
+        public static string Serialize(object @object, bool removeNamespaces = false)
+        {
+            return Serialize(@object.GetType(), removeNamespaces);
+        }
     }
 }

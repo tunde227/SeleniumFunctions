@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Xml;
-using Backend.Api.Base;
-using Backend.Api.HTTP;
 using Core.Extensions;
 using log4net;
-using MoreLinq;
 using NUnit.Framework;
 
 namespace TemplateTests.Backend.API
@@ -19,7 +13,7 @@ namespace TemplateTests.Backend.API
 
         public class Element : IEquatable<Element>
         {
-            public string @Interface { get; set; }
+            public string Interface { get; set; }
             public string Page { get; set; }
             public int Release { get; set; } = 1;
             public string Name { get; set; }
@@ -38,7 +32,7 @@ namespace TemplateTests.Backend.API
             {
                 if (ReferenceEquals(null, obj)) return false;
                 if (ReferenceEquals(this, obj)) return true;
-                if (obj.GetType() != this.GetType()) return false;
+                if (obj.GetType() != GetType()) return false;
                 return Equals((Element) obj);
             }
 
@@ -46,9 +40,9 @@ namespace TemplateTests.Backend.API
             {
                 unchecked
                 {
-                    int hashCode = (Interface != null
+                    var hashCode = Interface != null
                         ? StringComparer.CurrentCultureIgnoreCase.GetHashCode(Interface)
-                        : 0);
+                        : 0;
                     hashCode = (hashCode * 397) ^
                                (Page != null ? StringComparer.CurrentCultureIgnoreCase.GetHashCode(Page) : 0);
                     hashCode = (hashCode * 397) ^ Release;
@@ -58,9 +52,15 @@ namespace TemplateTests.Backend.API
                 }
             }
 
-            public static bool operator ==(Element left, Element right) => Equals(left, right);
+            public static bool operator ==(Element left, Element right)
+            {
+                return Equals(left, right);
+            }
 
-            public static bool operator !=(Element left, Element right) => !Equals(left, right);
+            public static bool operator !=(Element left, Element right)
+            {
+                return !Equals(left, right);
+            }
 
             public override string ToString()
             {
@@ -72,7 +72,7 @@ namespace TemplateTests.Backend.API
         [TestCase]
         public void ResponseMapTest()
         {
-            var response = new Element()
+            var response = new Element
             {
                 Interface = "GAA",
                 Name = "FirstName",
@@ -80,7 +80,7 @@ namespace TemplateTests.Backend.API
                 Release = 092019
             };
 
-            var response2 = new Element()
+            var response2 = new Element
             {
                 Interface = "GAA",
                 Name = "LastName",
@@ -88,7 +88,7 @@ namespace TemplateTests.Backend.API
                 Release = 082019
             };
 
-            var responses = new Element()
+            var responses = new Element
             {
                 Interface = "GAA",
                 Name = "Header",
@@ -96,7 +96,7 @@ namespace TemplateTests.Backend.API
                 Release = 082019
             };
 
-            var responses2 = new Element()
+            var responses2 = new Element
             {
                 Interface = "GAA",
                 Name = "Header",
@@ -105,7 +105,7 @@ namespace TemplateTests.Backend.API
             };
 
 
-            var responses3 = new Element()
+            var responses3 = new Element
             {
                 Interface = "GAA",
                 Name = "Header",
@@ -113,7 +113,7 @@ namespace TemplateTests.Backend.API
                 Release = 102019
             };
 
-            var responses4 = new Element()
+            var responses4 = new Element
             {
                 Interface = "GAA",
                 Name = "HeaderEnter",
@@ -122,7 +122,8 @@ namespace TemplateTests.Backend.API
             };
 
 
-            List<Element> elements = Arrays.AsList(response, response2, responses, responses2, responses3, responses4);
+            var elements = Arrays.AsList(response, response2, responses, responses2, responses3, responses4);
+            elements.Select(i => i.Name);
             elements.ForFirst(e => Logger.Debug(e.Release));
             Logger.Debug(responses.ToString());
         }

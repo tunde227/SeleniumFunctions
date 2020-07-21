@@ -8,10 +8,10 @@ namespace Backend.Api.Base
 {
     public sealed class ResponseMap : Dictionary<string, string>, IList<ResponseMap>, IEquatable<ResponseMap>
     {
-        private XmlDocument Document { get; }
-        public List<ResponseMap> Responses { get; } = new List<ResponseMap>();
-
-        public ResponseMap() => Responses.Add(this);
+        public ResponseMap()
+        {
+            Responses.Add(this);
+        }
 
         public ResponseMap(XmlDocument document)
         {
@@ -19,44 +19,18 @@ namespace Backend.Api.Base
             Responses.Add(this);
         }
 
-        public ResponseMap(IEqualityComparer<string> comparer) : base(comparer) => Responses.Add(this);
-
-        public ResponseMap(IDictionary<string, string> dictionary) : base(dictionary) => Responses.Add(this);
-
-        public Dictionary<string, string> LocateValues(XmlDocument document = null)
+        public ResponseMap(IEqualityComparer<string> comparer) : base(comparer)
         {
-            Keys.ForEach(key => this[key] = Search.Document(document ?? Document).ByXpath(this[key]));
-            return this;
+            Responses.Add(this);
         }
 
-        public void Add(ResponseMap item) => Responses.Add(item);
-
-        public bool Contains(ResponseMap item) => Responses.Contains(item);
-
-        public void CopyTo(ResponseMap[] array, int arrayIndex) => Responses.CopyTo(array, arrayIndex);
-
-        public bool Remove(ResponseMap item) => Responses.Remove(item);
-
-        public bool IsReadOnly { get; } = false;
-        public int IndexOf(ResponseMap item) => Responses.IndexOf(item);
-
-        public void Insert(int index, ResponseMap item) => Responses.Insert(index, item);
-
-        public void RemoveAt(int index) => Responses.RemoveAt(index);
-
-        public ResponseMap this[int index]
+        public ResponseMap(IDictionary<string, string> dictionary) : base(dictionary)
         {
-            get => Responses[index];
-            set => Responses[index] = value;
+            Responses.Add(this);
         }
 
-        public new IEnumerator<ResponseMap> GetEnumerator() => ((IEnumerable<ResponseMap>) Responses).GetEnumerator();
-
-        public override string ToString()
-        {
-            return $"{nameof(Document)}: {Document}, {nameof(Responses)}: {Responses}, " +
-                   $"{nameof(IsReadOnly)}: {IsReadOnly}";
-        }
+        private XmlDocument Document { get; }
+        public List<ResponseMap> Responses { get; } = new List<ResponseMap>();
 
         public bool Equals(ResponseMap other)
         {
@@ -64,13 +38,84 @@ namespace Backend.Api.Base
             return ReferenceEquals(this, other) || Equals(Responses, other.Responses);
         }
 
-        public override bool Equals(object obj) =>
-            ReferenceEquals(this, obj) || obj is ResponseMap other && Equals(other);
+        public void Add(ResponseMap item)
+        {
+            Responses.Add(item);
+        }
 
-        public override int GetHashCode() => (Responses != null ? Responses.GetHashCode() : 0);
+        public bool Contains(ResponseMap item)
+        {
+            return Responses.Contains(item);
+        }
 
-        public static bool operator ==(ResponseMap left, ResponseMap right) => Equals(left, right);
+        public void CopyTo(ResponseMap[] array, int arrayIndex)
+        {
+            Responses.CopyTo(array, arrayIndex);
+        }
 
-        public static bool operator !=(ResponseMap left, ResponseMap right) => !Equals(left, right);
+        public bool Remove(ResponseMap item)
+        {
+            return Responses.Remove(item);
+        }
+
+        public bool IsReadOnly { get; } = false;
+
+        public int IndexOf(ResponseMap item)
+        {
+            return Responses.IndexOf(item);
+        }
+
+        public void Insert(int index, ResponseMap item)
+        {
+            Responses.Insert(index, item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            Responses.RemoveAt(index);
+        }
+
+        public ResponseMap this[int index]
+        {
+            get => Responses[index];
+            set => Responses[index] = value;
+        }
+
+        public new IEnumerator<ResponseMap> GetEnumerator()
+        {
+            return ((IEnumerable<ResponseMap>) Responses).GetEnumerator();
+        }
+
+        public Dictionary<string, string> LocateValues(XmlDocument document = null)
+        {
+            Keys.ForEach(key => this[key] = Search.Document(document ?? Document).ByXpath(this[key]));
+            return this;
+        }
+
+        public override string ToString()
+        {
+            return $"{nameof(Document)}: {Document}, {nameof(Responses)}: {Responses}, " +
+                   $"{nameof(IsReadOnly)}: {IsReadOnly}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return ReferenceEquals(this, obj) || obj is ResponseMap other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return Responses != null ? Responses.GetHashCode() : 0;
+        }
+
+        public static bool operator ==(ResponseMap left, ResponseMap right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(ResponseMap left, ResponseMap right)
+        {
+            return !Equals(left, right);
+        }
     }
 }

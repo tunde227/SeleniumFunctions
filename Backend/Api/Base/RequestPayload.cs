@@ -13,7 +13,7 @@ namespace Backend.Api.Base
 
         protected override string GeneratePayload()
         {
-            string payload = ReplaceElement(FileUtils.ReadFromFile(CallingAssembly,
+            var payload = ReplaceElement(FileUtils.ReadFromFile(CallingAssembly,
                 $"{GetTemplateDirectory()}{GetFileName()}"));
             Logger.Debug($"{CallerClass} -> Payload: {payload}");
             return payload;

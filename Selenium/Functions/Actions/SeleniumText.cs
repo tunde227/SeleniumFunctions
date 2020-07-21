@@ -16,7 +16,7 @@ namespace Selenium.Functions.Actions
         protected static void Type(PageElement pageElement, string input)
         {
             pageElement.GoToFrame();
-            IWebElement element =
+            var element =
                 SeleniumUtility.WebDriverWait(ExpectedConditions.ElementToBeClickable(pageElement.Locator));
             element.Clear();
             element.SendKeys(input);
@@ -29,16 +29,13 @@ namespace Selenium.Functions.Actions
             try
             {
                 pageElement.GoToFrame();
-                IWebElement element = SeleniumUtility.WebDriverWait(
+                var element = SeleniumUtility.WebDriverWait(
                     ExpectedConditions.ElementIsVisible(pageElement.Locator),
                     maxWaitTime ?? Default5Seconds);
 
-                string text = GetTextByType(pageElement.ElementType, element);
+                var text = GetTextByType(pageElement.ElementType, element);
 
-                if (text == null)
-                {
-                    throw new NotFoundException($"{TextNotFound} Element: {pageElement}");
-                }
+                if (text == null) throw new NotFoundException($"{TextNotFound} Element: {pageElement}");
 
                 return text;
             }

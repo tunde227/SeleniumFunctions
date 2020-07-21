@@ -5,6 +5,9 @@ namespace Backend.Api.HTTP
 {
     public abstract class PostObject<TSource> : RequestSerialization<TSource> where TSource : new()
     {
-        protected override Method GetHtmlMethod() => Method.POST;
+        protected override Method GetHtmlMethod()
+        {
+            return Method.POST;
+        }
     }
 }

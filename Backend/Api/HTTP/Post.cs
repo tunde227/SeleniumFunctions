@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Backend.Api.Base;
 using RestSharp;
 
@@ -7,6 +5,9 @@ namespace Backend.Api.HTTP
 {
     public abstract class Post<TSource> : RequestPayload<TSource> where TSource : new()
     {
-        protected override Method GetHtmlMethod() => Method.POST;
+        protected override Method GetHtmlMethod()
+        {
+            return Method.POST;
+        }
     }
 }

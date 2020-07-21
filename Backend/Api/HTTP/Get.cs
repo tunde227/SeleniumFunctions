@@ -5,13 +5,16 @@ namespace Backend.Api.HTTP
 {
     public abstract class Get<TSource> : RequestWithoutBody<TSource> where TSource : new()
     {
-        protected override Method GetHtmlMethod() => Method.GET;
+        protected override Method GetHtmlMethod()
+        {
+            return Method.GET;
+        }
 
         public override TSource CompleteServiceRequest(string sourceFilePath = "")
         {
             CallerClass = FormatCallerClass(sourceFilePath);
-            RestRequest request = GetRequest();
-            IRestResponse response = new RestClient().Execute(request);
+            var request = GetRequest();
+            var response = new RestClient().Execute(request);
             PrintResponse(response);
             return Deserialize(response);
         }
