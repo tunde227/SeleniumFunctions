@@ -19,7 +19,7 @@ namespace Selenium.Functions.Actions
             var element =
                 SeleniumUtility.WebDriverWait(ExpectedConditions.ElementToBeClickable(pageElement.Locator));
             element.Clear();
-            element.SendKeys(input);
+            element.SendKeys(input);//
 
             Assert.AreEqual(input, ExtractText(pageElement, Default5Seconds));
         }
